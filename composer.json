@@ -37,5 +37,11 @@
             "email": "ferncastillov@outlook.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "scripts": {
+        "serve": "php -S localhost:8000 -t public -a",
+        "test": "phpunit --bootstrap core/bootstrap.php tests",
+        "migrate": "phinx migrate -c config/phinx.php",
+        "rollback": "phinx rollback -c config/phinx.php"
+    }
 }

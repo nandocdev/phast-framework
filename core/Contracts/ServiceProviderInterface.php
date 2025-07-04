@@ -13,15 +13,14 @@ declare(strict_types=1);
 
 namespace Phast\Core\Contracts;
 
-interface ServiceProviderInterface
-{
-    /**
-     * Register services in the container
-     */
-    public function register(ContainerInterface $container): void;
+interface ServiceProviderInterface {
+   /**
+    * Register services in the container
+    */
+   public function register(ContainerInterface $container): void;
 
-    /**
-     * Boot services after all providers are registered
-     */
-    public function boot(ContainerInterface $container): void;
+   /**
+    * Boot services after all providers are registered
+    */
+   public function boot(ContainerInterface $container): void;
 }

@@ -17,17 +17,17 @@ $router = $app->getRouter();
 
 // Home route
 $router->get('/', function () {
-    return response()->json([
-        'message' => 'Welcome to Phast Framework',
-        'version' => '1.0.0',
-        'timestamp' => date('Y-m-d H:i:s')
-    ]);
+   return response()->json([
+      'message' => 'Welcome to Phast Framework',
+      'version' => '1.0.0',
+      'timestamp' => date('Y-m-d H:i:s')
+   ]);
 });
 
 // API routes
 $router->group(['prefix' => '/api'], function ($router) {
-    // Users module routes
-    require_once PHAST_BASE_PATH . '/app/Modules/Users/routes.php';
-    
-    // Add more module routes here...
+   // Users module routes
+   require_once PHAST_BASE_PATH . '/app/Modules/Users/routes.php';
+
+   // Add more module routes here...
 });

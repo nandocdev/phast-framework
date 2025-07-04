@@ -20,36 +20,33 @@ use Phast\App\Modules\Users\Models\Repositories\UserRepository;
 use Phast\App\Modules\Users\Models\Repositories\UserRepositoryInterface;
 use Phast\App\Modules\Users\Services\UserService;
 
-class UserServiceProvider implements ServiceProviderInterface
-{
-    public function register(ContainerInterface $container): void
-    {
-        // Register PDO connection
-        $container->singleton(PDO::class, function () {
-            $config = config('database.connections.mysql');
-            
-            $dsn = sprintf(
-                'mysql:host=%s;port=%s;dbname=%s;charset=%s',
-                $config['host'],
-                $config['port'],
-                $config['database'],
-                $config['charset']
-            );
-            
-            $pdo = new PDO($dsn, $config['username'], $config['password'], $config['options']);
-            
-            return $pdo;
-        });
+class UserServiceProvider implements ServiceProviderInterface {
+   public function register(ContainerInterface $container): void {
+      // Register PDO connection
+      $container->singleton(PDO::class, function () {
+         $config = config('database.connections.mysql');
 
-        // Register User Repository
-        $container->singleton(UserRepositoryInterface::class, UserRepository::class);
+         $dsn = sprintf(
+            'mysql:host=%s;port=%s;dbname=%s;charset=%s',
+            $config['host'],
+            $config['port'],
+            $config['database'],
+            $config['charset']
+         );
 
-        // Register User Service
-        $container->singleton(UserService::class, UserService::class);
-    }
+         $pdo = new PDO($dsn, $config['username'], $config['password'], $config['options']);
 
-    public function boot(ContainerInterface $container): void
-    {
-        // Boot logic if needed
-    }
+         return $pdo;
+      });
+
+      // Register User Repository
+      $container->singleton(UserRepositoryInterface::class, UserRepository::class);
+
+      // Register User Service
+      $container->singleton(UserService::class, UserService::class);
+   }
+
+   public function boot(ContainerInterface $container): void {
+      // Boot logic if needed
+   }
 }

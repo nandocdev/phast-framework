@@ -13,30 +13,29 @@ declare(strict_types=1);
 
 namespace Phast\Core\Config;
 
-interface ConfigInterface
-{
-    /**
-     * Get configuration value
-     */
-    public function get(string $key, mixed $default = null): mixed;
+interface ConfigInterface {
+   /**
+    * Get configuration value
+    */
+   public function get(string $key, mixed $default = null): mixed;
 
-    /**
-     * Set configuration value
-     */
-    public function set(string $key, mixed $value): void;
+   /**
+    * Set configuration value
+    */
+   public function set(string $key, mixed $value): void;
 
-    /**
-     * Check if configuration key exists
-     */
-    public function has(string $key): bool;
+   /**
+    * Check if configuration key exists
+    */
+   public function has(string $key): bool;
 
-    /**
-     * Load configuration from file
-     */
-    public function load(string $path): void;
+   /**
+    * Load configuration from file
+    */
+   public function load(string $path): void;
 
-    /**
-     * Get all configuration values
-     */
-    public function all(): array;
+   /**
+    * Get all configuration values
+    */
+   public function all(): array;
 }

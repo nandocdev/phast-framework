@@ -13,30 +13,29 @@ declare(strict_types=1);
 
 namespace Phast\Core\Contracts;
 
-interface ContainerInterface
-{
-    /**
-     * Bind a class or interface to the container
-     */
-    public function bind(string $abstract, mixed $concrete = null, bool $shared = false): void;
+interface ContainerInterface {
+   /**
+    * Bind a class or interface to the container
+    */
+   public function bind(string $abstract, mixed $concrete = null, bool $shared = false): void;
 
-    /**
-     * Bind a singleton to the container
-     */
-    public function singleton(string $abstract, mixed $concrete = null): void;
+   /**
+    * Bind a singleton to the container
+    */
+   public function singleton(string $abstract, mixed $concrete = null): void;
 
-    /**
-     * Get an instance from the container
-     */
-    public function get(string $abstract): mixed;
+   /**
+    * Get an instance from the container
+    */
+   public function get(string $abstract): mixed;
 
-    /**
-     * Check if binding exists
-     */
-    public function has(string $abstract): bool;
+   /**
+    * Check if binding exists
+    */
+   public function has(string $abstract): bool;
 
-    /**
-     * Register a service provider
-     */
-    public function register(ServiceProviderInterface $provider): void;
+   /**
+    * Register a service provider
+    */
+   public function register(ServiceProviderInterface $provider): void;
 }

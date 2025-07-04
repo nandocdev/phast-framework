@@ -4,13 +4,13 @@ Un framework PHP moderno y limpio basado en principios de arquitectura limpia y 
 
 ## Características
 
-- **Arquitectura Limpia**: Separación clara de responsabilidades
-- **Inyección de Dependencias**: Container DI personalizado
-- **Routing**: Sistema de rutas flexible con FastRoute
-- **Validación**: Sistema de validación robusto
-- **ORM**: Implementación con Doctrine ORM
-- **Logs**: Sistema de logging con Monolog
-- **Migraciones**: Control de versiones de base de datos con Phinx
+-  **Arquitectura Limpia**: Separación clara de responsabilidades
+-  **Inyección de Dependencias**: Container DI personalizado
+-  **Routing**: Sistema de rutas flexible con FastRoute
+-  **Validación**: Sistema de validación robusto
+-  **ORM**: Implementación con Doctrine ORM
+-  **Logs**: Sistema de logging con Monolog
+-  **Migraciones**: Control de versiones de base de datos con Phinx
 
 ## Estructura del Proyecto
 
@@ -44,28 +44,33 @@ Un framework PHP moderno y limpio basado en principios de arquitectura limpia y 
 ## Instalación
 
 1. **Clonar el repositorio**
+
 ```bash
 git clone <repository-url> phast-project
 cd phast-project
 ```
 
 2. **Instalar dependencias**
+
 ```bash
 composer install
 ```
 
 3. **Configurar entorno**
+
 ```bash
 cp .env.example .env
 # Editar .env con tus configuraciones
 ```
 
 4. **Ejecutar migraciones**
+
 ```bash
 ./vendor/bin/phinx migrate
 ```
 
 5. **Iniciar servidor de desarrollo**
+
 ```bash
 php -S localhost:8000 -t public
 ```
@@ -138,15 +143,15 @@ class ModuleEntity
 {
     private ?int $id = null;
     private string $name;
-    
+
     public function __construct(string $name, ?int $id = null)
     {
         $this->name = $name;
         $this->id = $id;
     }
-    
+
     // Getters y setters...
-    
+
     public function toArray(): array
     {
         return [
@@ -175,12 +180,12 @@ interface ModuleRepositoryInterface
 class ModuleRepository implements ModuleRepositoryInterface
 {
     private PDO $db;
-    
+
     public function __construct(PDO $db)
     {
         $this->db = $db;
     }
-    
+
     // Implementar métodos...
 }
 ```
@@ -195,12 +200,12 @@ namespace Phast\App\Modules\ModuleName\Services;
 class ModuleService
 {
     private ModuleRepositoryInterface $repository;
-    
+
     public function __construct(ModuleRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
-    
+
     public function getAllItems(): array
     {
         return $this->repository->findAll();
@@ -210,11 +215,11 @@ class ModuleService
 
 ## API Endpoints (Módulo Users)
 
-- `GET /api/users` - Obtener todos los usuarios
-- `GET /api/users/{id}` - Obtener usuario por ID
-- `POST /api/users` - Crear nuevo usuario
-- `PUT /api/users/{id}` - Actualizar usuario
-- `DELETE /api/users/{id}` - Eliminar usuario
+-  `GET /api/users` - Obtener todos los usuarios
+-  `GET /api/users/{id}` - Obtener usuario por ID
+-  `POST /api/users` - Crear nuevo usuario
+-  `PUT /api/users/{id}` - Actualizar usuario
+-  `DELETE /api/users/{id}` - Eliminar usuario
 
 ### Ejemplo de uso:
 
@@ -235,26 +240,26 @@ curl http://localhost:8000/api/users/1
 
 ### SOLID
 
-- **S** - Single Responsibility: Cada clase tiene una responsabilidad específica
-- **O** - Open/Closed: Abierto para extensión, cerrado para modificación
-- **L** - Liskov Substitution: Las implementaciones pueden sustituir interfaces
-- **I** - Interface Segregation: Interfaces específicas y cohesivas
-- **D** - Dependency Inversion: Depende de abstracciones, no de concreciones
+-  **S** - Single Responsibility: Cada clase tiene una responsabilidad específica
+-  **O** - Open/Closed: Abierto para extensión, cerrado para modificación
+-  **L** - Liskov Substitution: Las implementaciones pueden sustituir interfaces
+-  **I** - Interface Segregation: Interfaces específicas y cohesivas
+-  **D** - Dependency Inversion: Depende de abstracciones, no de concreciones
 
 ### Clean Architecture
 
-- **Entities**: Objetos de negocio con reglas empresariales
-- **Use Cases**: Lógica de aplicación específica
-- **Interface Adapters**: Controllers, Presenters, Gateways
-- **Frameworks & Drivers**: Framework, Base de datos, Web
+-  **Entities**: Objetos de negocio con reglas empresariales
+-  **Use Cases**: Lógica de aplicación específica
+-  **Interface Adapters**: Controllers, Presenters, Gateways
+-  **Frameworks & Drivers**: Framework, Base de datos, Web
 
 ### Patrones de Diseño
 
-- **Repository Pattern**: Abstracción del acceso a datos
-- **Service Layer**: Lógica de negocio
-- **Dependency Injection**: Inversión de control
-- **Value Objects**: Objetos inmutables con validación
-- **Factory Pattern**: Creación de objetos complejos
+-  **Repository Pattern**: Abstracción del acceso a datos
+-  **Service Layer**: Lógica de negocio
+-  **Dependency Injection**: Inversión de control
+-  **Value Objects**: Objetos inmutables con validación
+-  **Factory Pattern**: Creación de objetos complejos
 
 ## Comandos Útiles
 

@@ -9,7 +9,7 @@
  */
 
 return [
-    'path' => PHAST_BASE_PATH . '/resources/views',
-    'cache' => PHAST_BASE_PATH . '/storage/cache/views',
-    'compiled' => PHAST_BASE_PATH . '/storage/compiled',
+   'path' => PHAST_BASE_PATH . '/resources/views',
+   'cache' => PHAST_BASE_PATH . '/storage/cache/views',
+   'compiled' => PHAST_BASE_PATH . '/storage/compiled',
 ];

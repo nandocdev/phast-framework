@@ -22,7 +22,7 @@ $dotenv->load();
 $dotenv->required(['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS'])->notEmpty();
 
 // 3. Iniciar la aplicación
-$app = new \Phast\Core\Application\Bootstrap();
+$app = new Phast\Core\Application\Bootstrap();
 
 // 4. Registrar rutas
 require_once PHAST_BASE_PATH . '/app/routes.php';
