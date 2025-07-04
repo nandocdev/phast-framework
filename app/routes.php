@@ -65,7 +65,9 @@ $router->group([
 
    foreach ($pathRoute as $routeFile) {
       if (file_exists($routeFile)) {
+         error_log("Loading route file: " . $routeFile);
          require_once $routeFile;
+         error_log("Route file loaded successfully");
       }
    }
 });
