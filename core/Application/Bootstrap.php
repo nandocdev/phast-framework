@@ -75,8 +75,19 @@ class Bootstrap {
          return $logger;
       });
 
+      // Register core middlewares
+      $this->registerMiddlewares();
+
       // Register module service providers
       $this->registerModuleProviders();
+   }
+
+   private function registerMiddlewares(): void {
+      // Register core middlewares
+      $this->container->singleton(\Phast\Core\Http\Middleware\CorsMiddleware::class);
+      $this->container->singleton(\Phast\Core\Http\Middleware\AuthMiddleware::class);
+      $this->container->singleton(\Phast\Core\Http\Middleware\RateLimitMiddleware::class);
+      $this->container->singleton(\Phast\Core\Http\Middleware\LoggingMiddleware::class);
    }
 
    private function registerModuleProviders(): void {

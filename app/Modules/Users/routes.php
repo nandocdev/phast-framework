@@ -14,9 +14,24 @@ declare(strict_types=1);
 /** @var \Phast\Core\Routing\Router $router */
 
 $router->group(['prefix' => '/users'], function ($router) {
-   $router->get('/', 'Phast\App\Modules\Users\Controllers\UserController@index');
-   $router->get('/{id}', 'Phast\App\Modules\Users\Controllers\UserController@show');
-   $router->post('/', 'Phast\App\Modules\Users\Controllers\UserController@store');
-   $router->put('/{id}', 'Phast\App\Modules\Users\Controllers\UserController@update');
-   $router->delete('/{id}', 'Phast\App\Modules\Users\Controllers\UserController@destroy');
+   // Public routes
+   $router->get('/', 'Phast\App\Modules\Users\Controllers\UserController@index')
+      ->name('users.index');
+
+   $router->get('/{id}', 'Phast\App\Modules\Users\Controllers\UserController@show')
+      ->name('users.show');
+
+   // Routes that require authentication
+   $router->group([
+      'middleware' => [\Phast\Core\Http\Middleware\AuthMiddleware::class]
+   ], function ($router) {
+      $router->post('/', 'Phast\App\Modules\Users\Controllers\UserController@store')
+         ->name('users.store');
+
+      $router->put('/{id}', 'Phast\App\Modules\Users\Controllers\UserController@update')
+         ->name('users.update');
+
+      $router->delete('/{id}', 'Phast\App\Modules\Users\Controllers\UserController@destroy')
+         ->name('users.destroy');
+   });
 });

@@ -55,4 +55,24 @@ class Route {
    public function getName(): ?string {
       return $this->name;
    }
+
+   /**
+    * Check if route matches given method and URI
+    */
+   public function matches(string $method, string $uri): bool {
+      return $this->method === $method && $this->uri === $uri;
+   }
+
+   /**
+    * Get route data as array
+    */
+   public function toArray(): array {
+      return [
+         'method' => $this->method,
+         'uri' => $this->uri,
+         'handler' => $this->handler,
+         'middleware' => $this->middleware,
+         'name' => $this->name,
+      ];
+   }
 }

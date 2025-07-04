@@ -15,6 +15,7 @@ namespace Phast\Core\Routing;
 
 use Phast\Core\Http\Request;
 use Phast\Core\Http\Response;
+use Phast\Core\Http\Middleware\MiddlewareInterface;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 
@@ -61,6 +62,7 @@ class Router {
    public function group(array $attributes, callable $callback): void {
       $prefix = $attributes['prefix'] ?? '';
       $middleware = $attributes['middleware'] ?? [];
+      $name = $attributes['name'] ?? '';
 
       $originalMiddlewares = $this->middlewares;
       $this->middlewares = array_merge($this->middlewares, (array) $middleware);
@@ -71,6 +73,11 @@ class Router {
       foreach ($router->routes as $route) {
          $route['uri'] = $prefix . $route['uri'];
          $route['middleware'] = array_merge($route['middleware'], $this->middlewares);
+
+         if ($name) {
+            $route['name'] = $name . '.' . ($route['name'] ?? '');
+         }
+
          $this->routes[] = $route;
       }
 
@@ -80,6 +87,47 @@ class Router {
    public function middleware(string|array $middleware): self {
       $this->middlewares = array_merge($this->middlewares, (array) $middleware);
       return $this;
+   }
+
+   /**
+    * Add global middleware to all routes
+    */
+   public function globalMiddleware(string|array $middleware): self {
+      $this->middlewares = array_merge($this->middlewares, (array) $middleware);
+      return $this;
+   }
+
+   /**
+    * Set global middlewares (replaces existing)
+    */
+   public function setGlobalMiddlewares(array $middlewares): self {
+      $this->middlewares = $middlewares;
+      return $this;
+   }
+
+   /**
+    * Get all registered routes
+    */
+   public function getRoutes(): array {
+      return $this->routes;
+   }
+
+   /**
+    * Register a named route
+    */
+   public function name(string $name): Route {
+      if (empty($this->routes)) {
+         throw new \InvalidArgumentException('No route to name');
+      }
+
+      $lastRouteIndex = count($this->routes) - 1;
+      $this->routes[$lastRouteIndex]['name'] = $name;
+
+      return new Route(
+         $this->routes[$lastRouteIndex]['method'],
+         $this->routes[$lastRouteIndex]['uri'],
+         $this->routes[$lastRouteIndex]['handler']
+      );
    }
 
    public function dispatch(Request $request): Response {
@@ -152,15 +200,53 @@ class Router {
    }
 
    private function carry(): callable {
-      return function ($stack, $pipe) {
-         return function ($passable) use ($stack, $pipe) {
-            if (is_string($pipe)) {
-               $pipe = app($pipe);
-            }
+      return function (callable $stack, mixed $pipe) {
+         return function (Request $passable) use ($stack, $pipe): Response {
+            try {
+               $middleware = $this->resolveMiddleware($pipe);
+               return $middleware->handle($passable, $stack);
+            } catch (\Throwable $e) {
+               logger()->error('Middleware error', [
+                  'middleware' => is_object($pipe) ? get_class($pipe) : (string) $pipe,
+                  'error' => $e->getMessage(),
+                  'file' => $e->getFile(),
+                  'line' => $e->getLine(),
+               ]);
 
-            return $pipe->handle($passable, $stack);
+               throw $e;
+            }
          };
       };
+   }
+
+   private function resolveMiddleware(mixed $pipe): MiddlewareInterface {
+      if (is_string($pipe)) {
+         // If it's a string, resolve from container
+         return app($pipe);
+      }
+
+      if (is_callable($pipe)) {
+         // If it's a callable, create anonymous middleware
+         return new class ($pipe) implements MiddlewareInterface {
+            private $callable;
+
+            public function __construct(callable $callable) {
+               $this->callable = $callable;
+            }
+
+            public function handle(Request $request, callable $next): Response {
+               return ($this->callable)($request, $next);
+            }
+         };
+      }
+
+      if ($pipe instanceof MiddlewareInterface) {
+         return $pipe;
+      }
+
+      throw new \InvalidArgumentException(
+         'Middleware must implement MiddlewareInterface or be a callable/string'
+      );
    }
 
    private function prepareDestination(mixed $handler): callable {
