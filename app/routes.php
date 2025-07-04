@@ -47,15 +47,25 @@ $router->group([
       return response()->json(['status' => 'healthy']);
    })->name('api.health');
 
-   // Users module routes
-   require_once PHAST_BASE_PATH . '/app/Modules/Users/routes.php';
+   // Mock users route for testing (no DB required)
+   $router->get('/users-mock', function () {
+      return response()->json([
+         'users' => [
+            ['id' => 1, 'name' => 'Juan Pérez', 'email' => 'juan@example.com'],
+            ['id' => 2, 'name' => 'María García', 'email' => 'maria@example.com'],
+            ['id' => 3, 'name' => 'Carlos López', 'email' => 'carlos@example.com']
+         ],
+         'total' => 3
+      ]);
+   })->name('api.users.mock');
 
-   // Protected routes with authentication
-   $router->group([
-      'middleware' => [\Phast\Core\Http\Middleware\AuthMiddleware::class]
-   ], function ($router) {
-      $router->get('/profile', function () {
-         return response()->json(['message' => 'User profile']);
-      })->name('api.profile');
-   });
+   // Include module routes within API context
+   $moduleRoutesPath = __DIR__ . '/Modules/*/routes.php';
+   $pathRoute = glob($moduleRoutesPath) ?: [];
+
+   foreach ($pathRoute as $routeFile) {
+      if (file_exists($routeFile)) {
+         require_once $routeFile;
+      }
+   }
 });

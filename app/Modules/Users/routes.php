@@ -11,9 +11,8 @@
 
 declare(strict_types=1);
 
-/** @var \Phast\Core\Routing\Router $router */
-
-$router->group(['prefix' => '/users'], function ($router) {
+// Note: $router is already available from the parent scope
+$router->group(['prefix' => 'users'], function ($router) {
    // Public routes
    $router->get('/', 'Phast\App\Modules\Users\Controllers\UserController@index')
       ->name('users.index');

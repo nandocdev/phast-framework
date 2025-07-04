@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="148.38509"
+   height="80"
+   viewBox="0 0 148.38509 80"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="icon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="148.38509"
+       height="80"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <!-- Fondo opcional -->
+ <!-- <rect
+     width="148.38509"
+     height="80"
+     rx="6.1827121"
+     fill="#1e1e1e"
+     id="rect1"
+     inkscape:label="rect1"
+     x="0"
+     y="0"
+     style="stroke-width:0.786302" />-->
+  <!-- Rayo estilizado para representar "Phast" -->
+  <polygon
+     points="20,70 28,45 15,45 20,20 35,20 30,40 45,40 "
+     fill="#00c3ff"
+     id="polygon1" />
+  <!-- Texto del logo -->
+  <text
+     x="60"
+     y="45"
+     font-family="'Segoe UI', Roboto, sans-serif"
+     font-size="28px"
+     fill="#ffffff"
+     font-weight="bold"
+     id="text1">Phast</text>
+  <!-- Subtexto -->
+  <text
+     x="59.296982"
+     y="66.205139"
+     font-family="'Segoe UI', Roboto, sans-serif"
+     font-size="14.2596px"
+     fill="#cccccc"
+     id="text2"
+     transform="scale(1.0185406,0.9817969)"
+     style="stroke-width:1.01854">Framework</text>
+</svg>
