@@ -1,0 +1,31 @@
+# Composer dependencies
+/vendor/
+
+# Laravel & Symfony cache, logs, etc.
+/bootstrap/cache/
+/storage/
+/var/
+
+# Environment files
+.env
+.env.*.local
+
+# PHPUnit
+.phpunit.result.cache
+
+# IDE files
+/.idea/
+/*.sublime-workspace
+/*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if using frontend tooling)
+/node_modules/
+
+# User-specific files
+*.swp
+*.bak
+*.tmp
