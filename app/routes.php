@@ -22,13 +22,20 @@ $router->globalMiddleware([
 ]);
 
 // Home route
-$router->get('/', function () {
+$router->get('/', 'Phast\App\Controllers\WebController@home')->name('home');
+
+// Web routes for views
+$router->get('/web', 'Phast\App\Controllers\WebController@home')->name('web.home');
+$router->get('/web/users', 'Phast\App\Controllers\WebController@users')->name('web.users');
+
+// Legacy JSON API route (for backward compatibility)
+$router->get('/api-info', function () {
    return response()->json([
       'message' => 'Welcome to Phast Framework',
       'version' => '1.0.0',
       'timestamp' => date('Y-m-d H:i:s')
    ]);
-})->name('home');
+})->name('api.info');
 
 // API routes with rate limiting
 $router->group([

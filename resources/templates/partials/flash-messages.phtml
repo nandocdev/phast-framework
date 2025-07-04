@@ -1,0 +1,13 @@
+<?php if (isset($flash_messages) && !empty($flash_messages)): ?>
+   <div class="container mt-3">
+      <?php foreach ($flash_messages as $type => $messages): ?>
+         <?php foreach ((array) $messages as $message): ?>
+            <div class="alert alert-<?= $this->e($type === 'error' ? 'danger' : $type) ?> alert-dismissible fade show"
+               role="alert">
+               <?= $this->e($message) ?>
+               <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+         <?php endforeach; ?>
+      <?php endforeach; ?>
+   </div>
+<?php endif; ?>

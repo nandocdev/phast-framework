@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+   <div class="container">
+      <a class="navbar-brand fw-bold" href="<?= $this->url('/') ?>">
+         <img src="<?= $this->asset('images/logo.png') ?>" alt="Logo" width="30" height="30"
+            class="d-inline-block align-text-top me-2">
+         <?= $this->e($app_name ?? 'Phast Framework') ?>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+         <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+         <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+               <a class="nav-link" href="<?= $this->url('/') ?>">Inicio</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="<?= $this->url('/api/users') ?>">Usuarios</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="<?= $this->url('/api/health') ?>">Health Check</a>
+            </li>
+         </ul>
+
+         <ul class="navbar-nav">
+            <?php if (isset($user)): ?>
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                     <?= $this->e($user['name'] ?? 'Usuario') ?>
+                  </a>
+                  <ul class="dropdown-menu">
+                     <li><a class="dropdown-item" href="<?= $this->url('/api/profile') ?>">Perfil</a></li>
+                     <li>
+                        <hr class="dropdown-divider">
+                     </li>
+                     <li><a class="dropdown-item" href="<?= $this->url('/logout') ?>">Cerrar Sesión</a></li>
+                  </ul>
+               </li>
+            <?php else: ?>
+               <li class="nav-item">
+                  <a class="nav-link" href="<?= $this->url('/login') ?>">Iniciar Sesión</a>
+               </li>
+            <?php endif; ?>
+         </ul>
+      </div>
+   </div>
+</nav>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title><?= $this->e($title ?? 'Phast Framework') ?></title>
+   <meta name="description" content="<?= $this->e($description ?? 'Aplicación desarrollada con Phast Framework') ?>">
+
+   <!-- CSS -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+   <link href="<?= $this->asset('css/app.css') ?>" rel="stylesheet">
+
+   <?= $this->section('styles') ?>
+</head>
+
+<body>
+   <!-- Navigation -->
+   <?= $this->insert('partials::navigation') ?>
+
+   <!-- Flash Messages -->
+   <?= $this->insert('partials::flash-messages') ?>
+
+   <!-- Main Content -->
+   <main>
+      <?= $content ?>
+   </main>
+
+   <!-- Footer -->
+   <?= $this->insert('partials::footer') ?>
+
+   <!-- Scripts -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+   <script src="<?= $this->asset('js/app.js') ?>"></script>
+
+   <?= $this->section('scripts') ?>
+</body>
+
+</html>

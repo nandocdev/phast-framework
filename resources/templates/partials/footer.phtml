@@ -1,0 +1,37 @@
+<footer class="bg-dark text-light mt-5 py-4">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-6">
+            <h5>Phast Framework</h5>
+            <p class="text-muted">
+               Un framework PHP moderno y limpio basado en principios de arquitectura limpia y código SOLID.
+            </p>
+         </div>
+         <div class="col-md-3">
+            <h6>Enlaces</h6>
+            <ul class="list-unstyled">
+               <li><a href="<?= $this->url('/') ?>" class="text-muted text-decoration-none">Inicio</a></li>
+               <li><a href="<?= $this->url('/api/health') ?>" class="text-muted text-decoration-none">Health Check</a>
+               </li>
+               <li><a href="#" class="text-muted text-decoration-none">Documentación</a></li>
+            </ul>
+         </div>
+         <div class="col-md-3">
+            <h6>Información</h6>
+            <ul class="list-unstyled">
+               <li class="text-muted">Versión: <?= $this->e($app_version ?? '1.0.0') ?></li>
+               <li class="text-muted">PHP: <?= PHP_VERSION ?></li>
+               <li class="text-muted">Framework: Phast</li>
+            </ul>
+         </div>
+      </div>
+      <hr class="border-secondary">
+      <div class="row">
+         <div class="col-12 text-center">
+            <p class="text-muted mb-0">
+               &copy; <?= date('Y') ?> Phast Framework. Todos los derechos reservados.
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>

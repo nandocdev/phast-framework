@@ -1,0 +1,232 @@
+<?php $this->layout('layouts::default', ['title' => 'Usuarios - Phast Framework']) ?>
+
+<div class="container py-4">
+   <!-- Header -->
+   <div class="row mb-4">
+      <div class="col-md-6">
+         <h2 class="fw-bold">Gestión de Usuarios</h2>
+         <p class="text-muted">Lista de usuarios registrados en el sistema</p>
+      </div>
+      <div class="col-md-6 text-end">
+         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+            <i class="fas fa-plus me-2"></i>Nuevo Usuario
+         </button>
+      </div>
+   </div>
+
+   <!-- Filters -->
+   <div class="row mb-4">
+      <div class="col-12">
+         <div class="card">
+            <div class="card-body">
+               <div class="row g-3">
+                  <div class="col-md-4">
+                     <label for="searchName" class="form-label">Buscar por nombre</label>
+                     <input type="text" class="form-control" id="searchName" placeholder="Nombre del usuario">
+                  </div>
+                  <div class="col-md-3">
+                     <label for="filterStatus" class="form-label">Estado</label>
+                     <select class="form-select" id="filterStatus">
+                        <option value="">Todos</option>
+                        <option value="active">Activo</option>
+                        <option value="inactive">Inactivo</option>
+                     </select>
+                  </div>
+                  <div class="col-md-3">
+                     <label for="sortBy" class="form-label">Ordenar por</label>
+                     <select class="form-select" id="sortBy">
+                        <option value="name">Nombre</option>
+                        <option value="email">Email</option>
+                        <option value="created_at">Fecha de registro</option>
+                     </select>
+                  </div>
+                  <div class="col-md-2 d-flex align-items-end">
+                     <button type="button" class="btn btn-outline-primary w-100" onclick="applyFilters()">
+                        <i class="fas fa-search me-2"></i>Buscar
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <!-- Users Table -->
+   <div class="row">
+      <div class="col-12">
+         <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+               <h5 class="mb-0">Lista de Usuarios</h5>
+               <span class="badge bg-primary"><?= count($users ?? []) ?> usuarios</span>
+            </div>
+            <div class="card-body p-0">
+               <?php if (!empty($users)): ?>
+                  <div class="table-responsive">
+                     <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                           <tr>
+                              <th>ID</th>
+                              <th>Nombre</th>
+                              <th>Email</th>
+                              <th>Estado</th>
+                              <th>Fecha de Registro</th>
+                              <th class="text-end">Acciones</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <?php foreach ($users as $user): ?>
+                              <tr>
+                                 <td><?= $this->e($user['id']) ?></td>
+                                 <td>
+                                    <div class="d-flex align-items-center">
+                                       <div
+                                          class="avatar-sm bg-primary rounded-circle d-flex align-items-center justify-content-center text-white me-3">
+                                          <?= strtoupper(substr($user['name'], 0, 1)) ?>
+                                       </div>
+                                       <strong><?= $this->e($user['name']) ?></strong>
+                                    </div>
+                                 </td>
+                                 <td><?= $this->e($user['email']) ?></td>
+                                 <td>
+                                    <span
+                                       class="badge bg-<?= ($user['status'] ?? 'active') === 'active' ? 'success' : 'secondary' ?>">
+                                       <?= $this->e($user['status'] ?? 'active') ?>
+                                    </span>
+                                 </td>
+                                 <td><?= $this->e($user['created_at'] ?? date('Y-m-d H:i:s')) ?></td>
+                                 <td class="text-end">
+                                    <div class="btn-group btn-group-sm">
+                                       <button type="button" class="btn btn-outline-primary" title="Ver detalles">
+                                          <i class="fas fa-eye"></i>
+                                       </button>
+                                       <button type="button" class="btn btn-outline-warning" title="Editar">
+                                          <i class="fas fa-edit"></i>
+                                       </button>
+                                       <button type="button" class="btn btn-outline-danger" title="Eliminar">
+                                          <i class="fas fa-trash"></i>
+                                       </button>
+                                    </div>
+                                 </td>
+                              </tr>
+                           <?php endforeach; ?>
+                        </tbody>
+                     </table>
+                  </div>
+               <?php else: ?>
+                  <div class="text-center py-5">
+                     <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                     <h5 class="text-muted">No hay usuarios registrados</h5>
+                     <p class="text-muted">Agrega el primer usuario para comenzar</p>
+                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                        <i class="fas fa-plus me-2"></i>Crear Usuario
+                     </button>
+                  </div>
+               <?php endif; ?>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <!-- Pagination -->
+   <?php if (!empty($users) && count($users) > 10): ?>
+      <div class="row mt-4">
+         <div class="col-12">
+            <nav aria-label="Paginación de usuarios">
+               <ul class="pagination justify-content-center">
+                  <li class="page-item disabled">
+                     <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                  </li>
+                  <li class="page-item active">
+                     <a class="page-link" href="#">1</a>
+                  </li>
+                  <li class="page-item">
+                     <a class="page-link" href="#">2</a>
+                  </li>
+                  <li class="page-item">
+                     <a class="page-link" href="#">3</a>
+                  </li>
+                  <li class="page-item">
+                     <a class="page-link" href="#">Siguiente</a>
+                  </li>
+               </ul>
+            </nav>
+         </div>
+      </div>
+   <?php endif; ?>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">Nuevo Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+         </div>
+         <div class="modal-body">
+            <form id="addUserForm">
+               <div class="mb-3">
+                  <label for="userName" class="form-label">Nombre</label>
+                  <input type="text" class="form-control" id="userName" required>
+               </div>
+               <div class="mb-3">
+                  <label for="userEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="userEmail" required>
+               </div>
+               <div class="mb-3">
+                  <label for="userPassword" class="form-label">Contraseña</label>
+                  <input type="password" class="form-control" id="userPassword" required>
+               </div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" onclick="createUser()">Crear Usuario</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<?php $this->start('styles') ?>
+<style>
+   .avatar-sm {
+      width: 35px;
+      height: 35px;
+      font-size: 14px;
+      font-weight: bold;
+   }
+
+   .table th {
+      border-top: none;
+      font-weight: 600;
+   }
+</style>
+<?php $this->stop() ?>
+
+<?php $this->start('scripts') ?>
+<script>
+   function applyFilters() {
+      const name = document.getElementById('searchName').value;
+      const status = document.getElementById('filterStatus').value;
+      const sortBy = document.getElementById('sortBy').value;
+
+      // Aquí implementarías la lógica de filtrado
+      console.log('Aplicando filtros:', { name, status, sortBy });
+   }
+
+   function createUser() {
+      const form = document.getElementById('addUserForm');
+      const formData = new FormData(form);
+
+      // Aquí implementarías la llamada AJAX para crear el usuario
+      console.log('Creando usuario...');
+
+      // Simular éxito
+      setTimeout(() => {
+         bootstrap.Modal.getInstance(document.getElementById('addUserModal')).hide();
+         // Recargar la página o actualizar la tabla
+         location.reload();
+      }, 1000);
+   }
+</script>
+<?php $this->stop() ?>

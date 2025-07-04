@@ -20,6 +20,8 @@ use Phast\Core\Http\Response;
 use Phast\Core\Routing\Router;
 use Phast\Core\Validation\Validator;
 use Phast\Core\Validation\ValidatorInterface;
+use Phast\Core\View\ViewInterface;
+use Phast\Core\View\PlatesViewEngine;
 use Psr\Log\LoggerInterface;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
@@ -73,6 +75,23 @@ class Bootstrap {
             Logger::DEBUG
          ));
          return $logger;
+      });
+
+      // View Engine
+      $this->container->singleton(ViewInterface::class, function () {
+         $logger = $this->container->get(LoggerInterface::class);
+         $config = $this->container->get(ConfigInterface::class);
+
+         $viewConfig = [
+            'views_path' => $config->get('view.views_path', PHAST_BASE_PATH . '/resources/views'),
+            'templates_path' => $config->get('view.templates_path', PHAST_BASE_PATH . '/resources/templates'),
+            'file_extension' => $config->get('view.file_extension', 'phtml'),
+            'default_layout' => $config->get('view.default_layout', 'default'),
+            'cache_enabled' => $config->get('view.cache_enabled', false),
+            'cache_path' => $config->get('view.cache_path', PHAST_BASE_PATH . '/storage/cache/views'),
+         ];
+
+         return new PlatesViewEngine($logger, $viewConfig);
       });
 
       // Register core middlewares
