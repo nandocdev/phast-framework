@@ -30,7 +30,8 @@
             "Phast\\Core\\": "core/"
         },
         "files": [
-            "core/helpers.php"
+            "core/helpers.php",
+            "core/Helpers/system_helpers.php"
         ]
     },
     "authors": [

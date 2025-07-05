@@ -22,6 +22,10 @@ use Phast\Core\Validation\Validator;
 use Phast\Core\Validation\ValidatorInterface;
 use Phast\Core\View\ViewInterface;
 use Phast\Core\View\PlatesViewEngine;
+use Phast\Core\Providers\EventServiceProvider;
+use Phast\Core\Providers\CacheServiceProvider;
+use Phast\Core\Providers\RateLimitServiceProvider;
+use Phast\Core\Http\Middleware\RateLimitMiddleware;
 use Psr\Log\LoggerInterface;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
@@ -105,11 +109,16 @@ class Bootstrap {
       // Register core middlewares
       $this->container->singleton(\Phast\Core\Http\Middleware\CorsMiddleware::class);
       $this->container->singleton(\Phast\Core\Http\Middleware\AuthMiddleware::class);
-      $this->container->singleton(\Phast\Core\Http\Middleware\RateLimitMiddleware::class);
+      $this->container->singleton(RateLimitMiddleware::class);
       $this->container->singleton(\Phast\Core\Http\Middleware\LoggingMiddleware::class);
    }
 
    private function registerModuleProviders(): void {
+      // Register core system providers
+      $this->container->register(new EventServiceProvider());
+      $this->container->register(new CacheServiceProvider());
+      $this->container->register(new RateLimitServiceProvider());
+
       // Register Users module
       $this->container->register(new \Phast\App\Modules\Users\Providers\UserServiceProvider());
 

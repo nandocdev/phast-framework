@@ -17,20 +17,27 @@ use Phast\App\Modules\Users\Models\Entities\UserEntity;
 use Phast\App\Modules\Users\Models\Repositories\UserRepositoryInterface;
 use Phast\App\Modules\Users\DataTransfer\CreateUserDTO;
 use Phast\App\Modules\Users\DataTransfer\UpdateUserDTO;
+use Phast\App\Modules\Users\Events\UserCreated;
+use Phast\App\Modules\Users\Events\UserUpdated;
+use Phast\App\Modules\Users\Events\UserDeleted;
 use Phast\Core\Exceptions\Domain\EntityNotFoundException;
 use Phast\Core\Exceptions\Domain\DuplicateEntityException;
+use Phast\Core\Events\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 
 class UserService {
    private UserRepositoryInterface $userRepository;
    private LoggerInterface $logger;
+   private EventDispatcherInterface $eventDispatcher;
 
    public function __construct(
       UserRepositoryInterface $userRepository,
-      LoggerInterface $logger
+      LoggerInterface $logger,
+      EventDispatcherInterface $eventDispatcher
    ) {
       $this->userRepository = $userRepository;
       $this->logger = $logger;
+      $this->eventDispatcher = $eventDispatcher;
    }
 
    public function getAllUsers(int $page = 1, int $limit = 10): array {
@@ -85,6 +92,9 @@ class UserService {
 
          $this->logger->info('User created successfully', ['id' => $savedUser->getId()]);
 
+         // Dispatch user created event
+         $this->eventDispatcher->dispatch(new UserCreated($savedUser));
+
          return $savedUser;
       } catch (DuplicateEntityException $e) {
          $this->logger->warning('Failed to create user: email already exists', ['email' => $data['email'] ?? 'unknown']);
@@ -126,6 +136,9 @@ class UserService {
 
          $this->logger->info('User updated successfully', ['id' => $id]);
 
+         // Dispatch user updated event
+         $this->eventDispatcher->dispatch(new UserUpdated($updatedUser, $updates));
+
          return $updatedUser;
       } catch (DuplicateEntityException $e) {
          $this->logger->warning('Failed to update user: email already exists', ['id' => $id, 'email' => $data['email'] ?? 'unknown']);
@@ -137,10 +150,17 @@ class UserService {
       $this->logger->info('Deleting user', ['id' => $id]);
 
       try {
+         // Get user info before deletion for the event
+         $user = $this->userRepository->findById($id);
+         $userEmail = $user->getEmail();
+
          $result = $this->userRepository->delete($id);
 
          if ($result) {
             $this->logger->info('User deleted successfully', ['id' => $id]);
+
+            // Dispatch user deleted event
+            $this->eventDispatcher->dispatch(new UserDeleted($id, $userEmail));
          }
 
          return $result;
