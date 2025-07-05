@@ -13,21 +13,7 @@ declare(strict_types=1);
 
 // Note: $router is already available from the parent scope
 
-// Debug route to test if basic routing works in module context
-$router->get('/users-test', function () {
-   return response()->json(['message' => 'Module route works!', 'module' => 'Users']);
-})->name('users.test');
-
-// Test route without prefix
-$router->get('/direct-users', function () {
-   return response()->json(['message' => 'Direct route works!', 'module' => 'Users']);
-})->name('users.direct');
-
 $router->group(['prefix' => 'users'], function ($router) {
-   // Debug route inside group
-   $router->get('/debug', function () {
-      return response()->json(['message' => 'Group route works!', 'prefix' => 'users']);
-   })->name('users.debug');
 
    // Public routes with mock responses to avoid DB dependency
    $router->get('/', function () {
