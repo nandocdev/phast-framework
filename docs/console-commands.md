@@ -3,20 +3,49 @@
 ## Comandos Implementados ✅
 
 ### Módulos
-- `php phast make:module <name>` - Crear estructura completa de módulo
-- `php phast make:controller <module> <name>` - Crear controlador en módulo
+
+-  ✅ `php phast make:module <name>` - Crear estructura completa de módulo
+-  ✅ `php phast make:controller <module> <name>` - Crear controlador en módulo
+
+### Generadores Individuales
+
+-  ✅ `php phast make:entity <name> --module=<module>` - Crear entidad
+-  ✅ `php phast make:repository <name> --module=<module> [--entity=<entity>]` - Crear repositorio
+-  ✅ `php phast make:service <name> --module=<module> [--repository=<repo>]` - Crear servicio
+-  ✅ `php phast make:valueobject <name> --module=<module>` - Crear value object
+-  ✅ `php phast make:provider <name> --module=<module>` - Crear service provider
+
+### Comandos de Eliminación
+
+-  ✅ `php phast delete:entity <name> --module=<module> [--force]` - Eliminar entidad
+-  ✅ `php phast delete:module <name> [--force]` - Eliminar módulo completo
+-  ✅ `php phast delete:component <type> <name> --module=<module> [--force]` - Eliminar componente específico
 
 ### Utilidades
-- `php phast serve [--host=localhost] [--port=8000]` - Servidor de desarrollo
-- `php phast routes:list` - Listar todas las rutas registradas
+
+-  ✅ `php phast serve [--host=localhost] [--port=8000]` - Servidor de desarrollo
+-  ✅ `php phast routes:list` - Listar todas las rutas registradasommands Documentation
+
+## Comandos Implementados ✅
+
+### Módulos
+
+-  `php phast make:module <name>` - Crear estructura completa de módulo
+-  `php phast make:controller <module> <name>` - Crear controlador en módulo
+
+### Utilidades
+
+-  `php phast serve [--host=localhost] [--port=8000]` - Servidor de desarrollo
+-  `php phast routes:list` - Listar todas las rutas registradas
 
 ## Comandos Sugeridos para Implementar 🚀
 
 ### Generadores de Código
+
 ```bash
 # Módulos
 php phast make:entity <module> <name>         # Crear entidad
-php phast make:repository <module> <name>     # Crear repositorio  
+php phast make:repository <module> <name>     # Crear repositorio
 php phast make:service <module> <name>        # Crear servicio
 php phast make:provider <module> <name>       # Crear service provider
 php phast make:valueobject <module> <name>    # Crear value object
@@ -33,15 +62,17 @@ php phast make:test <module> <name>           # Crear test
 ```
 
 ### Base de Datos
+
 ```bash
 php phast migrate                             # Ejecutar migraciones
-php phast migrate:rollback                    # Rollback migraciones  
+php phast migrate:rollback                    # Rollback migraciones
 php phast migrate:status                      # Estado migraciones
 php phast db:seed                             # Ejecutar seeders
 php phast db:reset                            # Reset y recargar DB
 ```
 
 ### Utilidades
+
 ```bash
 php phast cache:clear                         # Limpiar caché
 php phast config:cache                        # Cachear configuración
@@ -51,6 +82,7 @@ php phast optimize                            # Optimizar aplicación
 ```
 
 ### Testing
+
 ```bash
 php phast test                                # Ejecutar tests
 php phast test:coverage                       # Tests con coverage
@@ -59,6 +91,7 @@ php phast test:integration                    # Solo tests integración
 ```
 
 ### Mantenimiento
+
 ```bash
 php phast module:list                         # Listar módulos
 php phast module:enable <name>                # Habilitar módulo
@@ -88,6 +121,7 @@ app/Modules/Blog/
 ## Ejemplos de Uso
 
 ### Crear un módulo completo de blog
+
 ```bash
 php phast make:module Blog
 php phast make:controller Blog PostController
@@ -97,6 +131,7 @@ php phast make:service Blog PostService
 ```
 
 ### Verificar rutas y servir aplicación
+
 ```bash
 php phast routes:list
 php phast serve --port=8080

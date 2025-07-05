@@ -76,7 +76,7 @@ class MakeModuleCommand extends BaseCommand {
          "Files generated:",
          "  • {$moduleName}Controller.php",
          "  • {$moduleName}.php (Entity)",
-         "  • {$moduleName}Repository.php", 
+         "  • {$moduleName}Repository.php",
          "  • {$moduleName}Service.php",
          "  • {$moduleName}Id.php (Value Object)",
          "  • {$moduleName}ServiceProvider.php",
@@ -119,8 +119,7 @@ class MakeModuleCommand extends BaseCommand {
       file_put_contents($modulePath . '/README.md', $content);
    }
 
-   private function createInitialFiles(string $modulePath, string $moduleName): void
-   {
+   private function createInitialFiles(string $modulePath, string $moduleName): void {
       // Generate consistent names
       $entityName = $moduleName;
       $entityNameLower = strtolower($moduleName);
@@ -147,8 +146,7 @@ class MakeModuleCommand extends BaseCommand {
       $this->createValueObject($modulePath, $moduleName, $valueObjectName);
    }
 
-   private function createController(string $modulePath, string $moduleName, string $controllerName): void
-   {
+   private function createController(string $modulePath, string $moduleName, string $controllerName): void {
       $content = $this->getStub('module.controller', [
          'MODULE_NAME' => $moduleName,
          'MODULE_NAME_CAMEL' => lcfirst($moduleName),
@@ -160,8 +158,7 @@ class MakeModuleCommand extends BaseCommand {
       file_put_contents($modulePath . '/Controllers/' . $controllerName . '.php', $content);
    }
 
-   private function createEntity(string $modulePath, string $moduleName, string $entityName): void
-   {
+   private function createEntity(string $modulePath, string $moduleName, string $entityName): void {
       $content = $this->getStub('module.entity', [
          'MODULE_NAME' => $moduleName,
          'ENTITY_NAME' => $entityName,
@@ -171,8 +168,7 @@ class MakeModuleCommand extends BaseCommand {
       file_put_contents($modulePath . '/Models/Entities/' . $entityName . '.php', $content);
    }
 
-   private function createRepository(string $modulePath, string $moduleName, string $repositoryName, string $entityName, string $entityNameLower, string $entityNameCamel): void
-   {
+   private function createRepository(string $modulePath, string $moduleName, string $repositoryName, string $entityName, string $entityNameLower, string $entityNameCamel): void {
       $content = $this->getStub('module.repository', [
          'MODULE_NAME' => $moduleName,
          'REPOSITORY_NAME' => $repositoryName,
@@ -185,8 +181,7 @@ class MakeModuleCommand extends BaseCommand {
       file_put_contents($modulePath . '/Models/Repositories/' . $repositoryName . '.php', $content);
    }
 
-   private function createService(string $modulePath, string $moduleName, string $serviceName, string $entityName, string $entityNameLower, string $entityNameCamel, string $repositoryName, string $repositoryNameCamel): void
-   {
+   private function createService(string $modulePath, string $moduleName, string $serviceName, string $entityName, string $entityNameLower, string $entityNameCamel, string $repositoryName, string $repositoryNameCamel): void {
       $content = $this->getStub('module.service', [
          'MODULE_NAME' => $moduleName,
          'SERVICE_NAME' => $serviceName,
@@ -201,8 +196,7 @@ class MakeModuleCommand extends BaseCommand {
       file_put_contents($modulePath . '/Services/' . $serviceName . '.php', $content);
    }
 
-   private function createValueObject(string $modulePath, string $moduleName, string $valueObjectName): void
-   {
+   private function createValueObject(string $modulePath, string $moduleName, string $valueObjectName): void {
       $content = $this->getStub('module.valueobject', [
          'MODULE_NAME' => $moduleName,
          'VALUE_OBJECT_NAME' => $valueObjectName,
