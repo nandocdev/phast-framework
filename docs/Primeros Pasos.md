@@ -5,9 +5,10 @@
 ## 🎯 Objetivo
 
 Vamos a crear un sistema básico de blog con:
-- Módulo `Blog`
-- Gestión de posts
-- API REST completa
+
+-  Módulo `Blog`
+-  Gestión de posts
+-  API REST completa
 
 ## 🚀 Paso 1: Crear el Módulo
 
@@ -54,8 +55,8 @@ class Blog
     private ?\DateTime $updatedAt = null;
 
     public function __construct(
-        string $title, 
-        string $content, 
+        string $title,
+        string $content,
         string $slug
     ) {
         $this->title = $title;
@@ -73,13 +74,13 @@ class Blog
     public function getUpdatedAt(): ?\DateTime { return $this->updatedAt; }
 
     // Setters
-    public function setTitle(string $title): void { 
-        $this->title = $title; 
+    public function setTitle(string $title): void {
+        $this->title = $title;
         $this->touch();
     }
-    
-    public function setContent(string $content): void { 
-        $this->content = $content; 
+
+    public function setContent(string $content): void {
+        $this->content = $content;
         $this->touch();
     }
 
@@ -188,19 +189,19 @@ public function createPost(array $data): Blog
 {
     // Validar datos
     $this->validatePostData($data);
-    
+
     // Generar slug automáticamente si no se proporciona
     if (empty($data['slug'])) {
         $data['slug'] = $this->generateSlug($data['title']);
     }
-    
+
     // Crear entidad
     $blog = new Blog(
         $data['title'],
         $data['content'],
         $data['slug']
     );
-    
+
     // Guardar en repositorio
     return $this->blogRepository->save($blog);
 }
@@ -216,21 +217,21 @@ private function generateSlug(string $title): string
 ¡Felicidades! Ya tienes tu primera aplicación funcionando. Ahora puedes:
 
 1. **Aprender más sobre [[Módulos]]** - Organización avanzada
-2. **Explorar [[Middleware]]** - Interceptores de peticiones  
+2. **Explorar [[Middleware]]** - Interceptores de peticiones
 3. **Configurar [[Testing]]** - Pruebas automatizadas
 4. **Implementar [[Validación]]** - Validación de datos
 5. **Usar [[CLI]]** - Comandos personalizados
 
 ## 🎓 Conceptos Aprendidos
 
-- ✅ Creación de módulos con [[Comandos CLI]]
-- ✅ Estructura de [[Clean Architecture]]
-- ✅ [[Controladores]] REST
-- ✅ [[Entidades]] de dominio
-- ✅ [[Servicios]] de aplicación
-- ✅ [[Repositorios]] de datos
-- ✅ [[Rutas]] automáticas
-- ✅ [[Migraciones]] de base de datos
+-  ✅ Creación de módulos con [[Comandos CLI]]
+-  ✅ Estructura de [[Clean Architecture]]
+-  ✅ [[Controladores]] REST
+-  ✅ [[Entidades]] de dominio
+-  ✅ [[Servicios]] de aplicación
+-  ✅ [[Repositorios]] de datos
+-  ✅ [[Rutas]] automáticas
+-  ✅ [[Migraciones]] de base de datos
 
 ---
 

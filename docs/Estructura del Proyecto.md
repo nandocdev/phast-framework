@@ -163,14 +163,14 @@ routes/
 
 ### Archivos y Clases
 
-- **Controladores**: `BlogController.php`
-- **Entidades**: `Blog.php`, `User.php`
-- **Repositorios**: `BlogRepository.php`
-- **Servicios**: `BlogService.php`
-- **Value Objects**: `BlogId.php`, `Email.php`
-- **Providers**: `BlogServiceProvider.php`
-- **Middleware**: `AuthMiddleware.php`
-- **Comandos**: `MakeBlogCommand.php`
+-  **Controladores**: `BlogController.php`
+-  **Entidades**: `Blog.php`, `User.php`
+-  **Repositorios**: `BlogRepository.php`
+-  **Servicios**: `BlogService.php`
+-  **Value Objects**: `BlogId.php`, `Email.php`
+-  **Providers**: `BlogServiceProvider.php`
+-  **Middleware**: `AuthMiddleware.php`
+-  **Comandos**: `MakeBlogCommand.php`
 
 ### Namespaces
 
@@ -188,10 +188,10 @@ Phast\Config\DatabaseConfig
 
 ### Directorios
 
-- **PascalCase**: Nombres de clases y archivos
-- **kebab-case**: URLs y rutas
-- **snake_case**: Base de datos
-- **camelCase**: Variables y métodos
+-  **PascalCase**: Nombres de clases y archivos
+-  **kebab-case**: URLs y rutas
+-  **snake_case**: Base de datos
+-  **camelCase**: Variables y métodos
 
 ## 🔄 Flujo de Ejecución
 
@@ -217,23 +217,23 @@ Phast\Config\DatabaseConfig
 
 ### Organización de Módulos
 
-- Un módulo por dominio de negocio
-- Cada módulo es independiente
-- Comunicación entre módulos vía eventos o servicios compartidos
+-  Un módulo por dominio de negocio
+-  Cada módulo es independiente
+-  Comunicación entre módulos vía eventos o servicios compartidos
 
 ### Separación de Responsabilidades
 
-- **Controllers**: Solo reciben requests y devuelven responses
-- **Services**: Lógica de negocio
-- **Repositories**: Acceso a datos
-- **Entities**: Modelos de dominio
-- **Value Objects**: Valores inmutables
+-  **Controllers**: Solo reciben requests y devuelven responses
+-  **Services**: Lógica de negocio
+-  **Repositories**: Acceso a datos
+-  **Entities**: Modelos de dominio
+-  **Value Objects**: Valores inmutables
 
 ### Archivos de Configuración
 
-- Un archivo por tipo de configuración
-- Usar variables de entorno para valores sensibles
-- Documentar todas las opciones
+-  Un archivo por tipo de configuración
+-  Usar variables de entorno para valores sensibles
+-  Documentar todas las opciones
 
 ---
 

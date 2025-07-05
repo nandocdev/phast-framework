@@ -175,7 +175,7 @@ class BlogService
         $this->validateCreateRequest($request);
 
         // Crear slug automáticamente si no se proporciona
-        $slug = $request->slug 
+        $slug = $request->slug
             ? new BlogSlug($request->slug)
             : $this->generateSlugFromTitle($request->title);
 
@@ -206,7 +206,7 @@ class BlogService
     public function publishBlog(int $blogId): Blog
     {
         $blog = $this->blogRepository->findById($blogId);
-        
+
         if (!$blog) {
             throw new \DomainException('Blog not found');
         }
@@ -227,7 +227,7 @@ class BlogService
     {
         $slug = strtolower(str_replace(' ', '-', $title));
         $slug = preg_replace('/[^a-z0-9-]/', '', $slug);
-        
+
         return new BlogSlug($slug);
     }
 
@@ -298,22 +298,22 @@ class BlogController extends Controller
         try {
             // Convertir request HTTP a DTO
             $createRequest = CreateBlogRequest::fromArray($request->all());
-            
+
             // Ejecutar caso de uso
             $blog = $this->blogService->createBlog($createRequest);
-            
+
             // Convertir entidad a respuesta HTTP
             return response()->json([
                 'message' => 'Blog created successfully',
                 'data' => $this->transformBlogToArray($blog)
             ], 201);
-            
+
         } catch (\DomainException $e) {
             return response()->json([
                 'error' => 'Business rule violation',
                 'message' => $e->getMessage()
             ], 422);
-            
+
         } catch (\InvalidArgumentException $e) {
             return response()->json([
                 'error' => 'Validation error',
@@ -326,12 +326,12 @@ class BlogController extends Controller
     {
         try {
             $blog = $this->blogService->publishBlog($id);
-            
+
             return response()->json([
                 'message' => 'Blog published successfully',
                 'data' => $this->transformBlogToArray($blog)
             ]);
-            
+
         } catch (\DomainException $e) {
             return response()->json([
                 'error' => $e->getMessage()
@@ -376,7 +376,7 @@ class BlogRepository
         if ($blog->getId()) {
             return $this->update($blog);
         }
-        
+
         return $this->insert($blog);
     }
 
@@ -484,7 +484,7 @@ class DatabaseConnection
     {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
-        
+
         return $stmt->fetch(\PDO::FETCH_ASSOC) ?: null;
     }
 
@@ -613,9 +613,9 @@ class BlogServiceTest extends TestCase
     {
         $repository = $this->createMock(BlogRepository::class);
         $eventDispatcher = $this->createMock(EventDispatcher::class);
-        
+
         $service = new BlogService($repository, $eventDispatcher);
-        
+
         $request = new CreateBlogRequest(
             title: 'Test Blog',
             content: 'Test content'
@@ -636,14 +636,14 @@ class BlogServiceTest extends TestCase
 
 ### ✅ Verificaciones
 
-- [ ] Las entidades no dependen de frameworks externos
-- [ ] Los servicios orquestan casos de uso sin conocer detalles de implementación
-- [ ] Los controladores solo adaptan entre HTTP y casos de uso
-- [ ] Los repositorios implementan interfaces definidas en capas interiores
-- [ ] Las dependencias apuntan hacia adentro
-- [ ] Cada capa es testeable independientemente
-- [ ] Las reglas de negocio están en las entidades
-- [ ] Los casos de uso están en los servicios
+-  [ ] Las entidades no dependen de frameworks externos
+-  [ ] Los servicios orquestan casos de uso sin conocer detalles de implementación
+-  [ ] Los controladores solo adaptan entre HTTP y casos de uso
+-  [ ] Los repositorios implementan interfaces definidas en capas interiores
+-  [ ] Las dependencias apuntan hacia adentro
+-  [ ] Cada capa es testeable independientemente
+-  [ ] Las reglas de negocio están en las entidades
+-  [ ] Los casos de uso están en los servicios
 
 ---
 

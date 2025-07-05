@@ -4,14 +4,14 @@
 
 ## 📋 Requisitos del Sistema
 
-- **PHP** >= 8.1
-- **Composer** >= 2.0
-- **Extensiones PHP:**
-  - `pdo`
-  - `pdo_mysql` o `pdo_pgsql`
-  - `mbstring`
-  - `json`
-  - `openssl`
+-  **PHP** >= 8.1
+-  **Composer** >= 2.0
+-  **Extensiones PHP:**
+   -  `pdo`
+   -  `pdo_mysql` o `pdo_pgsql`
+   -  `mbstring`
+   -  `json`
+   -  `openssl`
 
 ## 🚀 Instalación
 
@@ -102,11 +102,11 @@ server {
     listen 80;
     server_name tu-dominio.com;
     root /path/to/phast/public;
-    
+
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
-    
+
     location ~ \.php$ {
         fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
         fastcgi_index index.php;

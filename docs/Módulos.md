@@ -163,9 +163,9 @@ class BlogService
     public function create(array $data): Blog
     {
         $this->validateBlogData($data);
-        
+
         $slug = new BlogSlug($data['slug'] ?? $this->generateSlug($data['title']));
-        
+
         if ($this->blogRepository->existsBySlug($slug)) {
             throw new \DomainException('Blog with this slug already exists');
         }
@@ -194,7 +194,7 @@ class BlogService
         if (empty($data['title'])) {
             throw new \InvalidArgumentException('Title is required');
         }
-        
+
         if (empty($data['content'])) {
             throw new \InvalidArgumentException('Content is required');
         }
@@ -260,7 +260,7 @@ class BlogServiceProvider extends AbstractServiceProvider
     public function register(): void
     {
         $this->container->add(BlogRepository::class);
-        
+
         $this->container->add(BlogService::class)
             ->addArgument(BlogRepository::class);
     }
@@ -427,36 +427,41 @@ class BlogSlug
 
 ### ✅ Beneficios
 
-- **Separación de responsabilidades**: Cada módulo maneja un dominio específico
-- **Reutilización**: Módulos pueden reutilizarse en otros proyectos
-- **Mantenibilidad**: Código organizado y fácil de mantener
-- **Escalabilidad**: Fácil agregar nuevas funcionalidades
-- **Testing**: Tests focalizados por dominio
-- **Equipos**: Diferentes equipos pueden trabajar en módulos distintos
+-  **Separación de responsabilidades**: Cada módulo maneja un dominio específico
+-  **Reutilización**: Módulos pueden reutilizarse en otros proyectos
+-  **Mantenibilidad**: Código organizado y fácil de mantener
+-  **Escalabilidad**: Fácil agregar nuevas funcionalidades
+-  **Testing**: Tests focalizados por dominio
+-  **Equipos**: Diferentes equipos pueden trabajar en módulos distintos
 
 ### ⚠️ Consideraciones
 
-- **Comunicación**: Definir bien las interfaces entre módulos
-- **Dependencias**: Evitar dependencias circulares
-- **Granularidad**: No crear módulos demasiado pequeños o grandes
-- **Consistencia**: Mantener patrones consistentes entre módulos
+-  **Comunicación**: Definir bien las interfaces entre módulos
+-  **Dependencias**: Evitar dependencias circulares
+-  **Granularidad**: No crear módulos demasiado pequeños o grandes
+-  **Consistencia**: Mantener patrones consistentes entre módulos
 
 ## 📚 Ejemplos de Módulos Comunes
 
 ### Blog
-- Posts, categorías, comentarios, tags
+
+-  Posts, categorías, comentarios, tags
 
 ### Ecommerce
-- Productos, categorías, carritos, órdenes, pagos
+
+-  Productos, categorías, carritos, órdenes, pagos
 
 ### User Management
-- Usuarios, roles, permisos, autenticación
+
+-  Usuarios, roles, permisos, autenticación
 
 ### Notification
-- Emails, SMS, push notifications, templates
+
+-  Emails, SMS, push notifications, templates
 
 ### Analytics
-- Métricas, reportes, dashboards, estadísticas
+
+-  Métricas, reportes, dashboards, estadísticas
 
 ---
 

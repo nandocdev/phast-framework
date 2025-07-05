@@ -23,20 +23,22 @@ php phast make:module <nombre>
 ```
 
 **Ejemplo:**
+
 ```bash
 php phast make:module Blog
 ```
 
 **Genera:**
-- 📁 Estructura completa de carpetas
-- 🎮 `BlogController.php`
-- 🏛️ `Blog.php` (Entity)
-- 🗄️ `BlogRepository.php`
-- ⚙️ `BlogService.php`
-- 💎 `BlogId.php` (Value Object)
-- 🔧 `BlogServiceProvider.php`
-- 🛣️ `routes.php`
-- 📖 `README.md`
+
+-  📁 Estructura completa de carpetas
+-  🎮 `BlogController.php`
+-  🏛️ `Blog.php` (Entity)
+-  🗄️ `BlogRepository.php`
+-  ⚙️ `BlogService.php`
+-  💎 `BlogId.php` (Value Object)
+-  🔧 `BlogServiceProvider.php`
+-  🛣️ `routes.php`
+-  📖 `README.md`
 
 ### Crear Controlador
 
@@ -45,6 +47,7 @@ php phast make:controller <módulo> <nombre>
 ```
 
 **Ejemplo:**
+
 ```bash
 php phast make:controller Blog PostController
 ```
@@ -58,6 +61,7 @@ php phast make:entity <nombre> --module=<módulo>
 ```
 
 **Ejemplos:**
+
 ```bash
 php phast make:entity Author --module=Blog
 php phast make:entity Product --module=Ecommerce
@@ -71,6 +75,7 @@ php phast make:repository <nombre> --module=<módulo> [--entity=<entidad>]
 ```
 
 **Ejemplos:**
+
 ```bash
 php phast make:repository AuthorRepository --module=Blog --entity=Author
 php phast make:repository ProductRepository --module=Ecommerce
@@ -83,6 +88,7 @@ php phast make:service <nombre> --module=<módulo> [--repository=<repositorio>]
 ```
 
 **Ejemplos:**
+
 ```bash
 php phast make:service EmailService --module=Blog --repository=EmailRepository
 php phast make:service PaymentService --module=Ecommerce
@@ -96,6 +102,7 @@ php phast make:valueobject <nombre> --module=<módulo>
 ```
 
 **Ejemplos:**
+
 ```bash
 php phast make:valueobject EmailAddress --module=User
 php phast make:valueobject Money --module=Ecommerce
@@ -109,6 +116,7 @@ php phast make:provider <nombre> --module=<módulo>
 ```
 
 **Ejemplo:**
+
 ```bash
 php phast make:provider CustomServiceProvider --module=Blog
 ```
@@ -122,6 +130,7 @@ php phast delete:entity <nombre> --module=<módulo> [--force]
 ```
 
 **Ejemplo:**
+
 ```bash
 php phast delete:entity Author --module=Blog
 ```
@@ -133,6 +142,7 @@ php phast delete:module <nombre> [--force]
 ```
 
 **Ejemplo:**
+
 ```bash
 # Con confirmación
 php phast delete:module Blog
@@ -148,14 +158,16 @@ php phast delete:component <tipo> <nombre> --module=<módulo> [--force]
 ```
 
 **Tipos válidos:**
-- `controller`
-- `service`
-- `repository`
-- `entity`
-- `valueobject`
-- `provider`
+
+-  `controller`
+-  `service`
+-  `repository`
+-  `entity`
+-  `valueobject`
+-  `provider`
 
 **Ejemplos:**
+
 ```bash
 php phast delete:component service EmailService --module=Blog
 php phast delete:component entity Product --module=Ecommerce
@@ -171,6 +183,7 @@ php phast serve [--host=<host>] [--port=<puerto>]
 ```
 
 **Ejemplos:**
+
 ```bash
 # Servidor por defecto (localhost:8000)
 php phast serve
@@ -191,6 +204,7 @@ php phast routes:list
 ```
 
 **Salida de ejemplo:**
+
 ```
 +--------+------------------+------------------+-------------------+
 | Method | URI              | Name             | Controller        |
@@ -274,12 +288,12 @@ php phast delete:module Test --force
 
 ### Opciones Disponibles
 
-- `--force` o `-f`: Ejecutar sin confirmación
-- `--module` o `-m`: Especificar módulo
-- `--entity` o `-e`: Especificar entidad relacionada
-- `--repository` o `-r`: Especificar repositorio relacionado
-- `--host`: Host del servidor
-- `--port`: Puerto del servidor
+-  `--force` o `-f`: Ejecutar sin confirmación
+-  `--module` o `-m`: Especificar módulo
+-  `--entity` o `-e`: Especificar entidad relacionada
+-  `--repository` o `-r`: Especificar repositorio relacionado
+-  `--host`: Host del servidor
+-  `--port`: Puerto del servidor
 
 ### Ejemplos con Opciones
 
@@ -328,7 +342,7 @@ php phast make:entity Blog --module=Blog
 ```bash
 # Eliminar con confirmación
 php phast delete:module Blog
-# Are you sure you want to delete the module 'Blog'? (yes/no) [no]: 
+# Are you sure you want to delete the module 'Blog'? (yes/no) [no]:
 
 # Saltar confirmación
 php phast delete:module Blog --force
@@ -338,6 +352,7 @@ php phast delete:module Blog --force
 ## 🔮 Comandos Futuros (En Desarrollo)
 
 ### Base de Datos
+
 ```bash
 php phast migrate                    # Ejecutar migraciones
 php phast migrate:rollback          # Rollback migraciones
@@ -346,12 +361,14 @@ php phast make:migration <nombre>   # Crear migración
 ```
 
 ### Testing
+
 ```bash
 php phast test                      # Ejecutar tests
 php phast make:test <nombre>        # Crear test
 ```
 
 ### Cache y Optimización
+
 ```bash
 php phast cache:clear              # Limpiar caché
 php phast optimize                 # Optimizar aplicación
