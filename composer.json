@@ -76,6 +76,7 @@
         "phinx:create": "phinx create -c config/phinx.php",
         "phinx:make": "phinx make -c config/phinx.php",
         "phinx:version": "phinx version -c config/phinx.php",
+        "phinx:migrate": "phinx migrate -c config/phinx.php",
         "cs-fix": "php-cs-fixer fix --config=.php-cs-fixer.php",
         "phpstan": "phpstan analyse --memory-limit=1G",
         "quality": [

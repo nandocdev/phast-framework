@@ -28,7 +28,7 @@ return
             'default_migration_table' => 'migrations',
             'default_environment' => 'development',
             'production' => [
-                'adapter' => 'mysql',
+                'adapter' => $_ENV['DB_CONNECTION'] ?? 'mysql',
                 'host' => $_ENV['DB_HOST'],
                 'name' => $_ENV['DB_NAME'],
                 'user' => $_ENV['DB_USER'],
@@ -38,7 +38,7 @@ return
                 'collation' => 'utf8mb4_unicode_ci',
             ],
             'development' => [
-                'adapter' => 'mysql',
+                'adapter' => $_ENV['DB_CONNECTION'] ?? 'mysql',
                 'host' => $_ENV['DB_HOST'],
                 'name' => $_ENV['DB_NAME'],
                 'user' => $_ENV['DB_USER'],
@@ -48,7 +48,7 @@ return
                 'collation' => 'utf8mb4_unicode_ci',
             ],
             'testing' => [
-                'adapter' => 'mysql',
+                'adapter' => $_ENV['DB_CONNECTION'] ?? 'mysql',
                 'host' => $_ENV['DB_HOST'],
                 'name' => $_ENV['DB_NAME'] . '_test',
                 'user' => $_ENV['DB_USER'],
