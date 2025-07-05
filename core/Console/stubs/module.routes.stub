@@ -15,21 +15,23 @@ declare(strict_types=1);
 
 $router->group(['prefix' => '{{MODULE_KEBAB}}'], function ($router) {
     // Public routes
-    $router->get('/', function () {
-        return response()->json([
-            'message' => 'Welcome to {{MODULE_NAME}} module',
-            'module' => '{{MODULE_NAME}}',
-            'endpoints' => [
-                'GET /' => 'This endpoint',
-                // Add more endpoints here
-            ]
-        ]);
-    })->name('{{MODULE_SNAKE}}.index');
+    $router->get('/', 'Phast\App\Modules\{{MODULE_NAME}}\Controllers\{{MODULE_NAME}}Controller@index')
+        ->name('{{MODULE_SNAKE}}.index');
+
+    $router->get('/{id}', 'Phast\App\Modules\{{MODULE_NAME}}\Controllers\{{MODULE_NAME}}Controller@show')
+        ->name('{{MODULE_SNAKE}}.show');
 
     // Protected routes
     $router->group([
         'middleware' => [\Phast\Core\Http\Middleware\AuthMiddleware::class]
     ], function ($router) {
-        // Add authenticated routes here
+        $router->post('/', 'Phast\App\Modules\{{MODULE_NAME}}\Controllers\{{MODULE_NAME}}Controller@store')
+            ->name('{{MODULE_SNAKE}}.store');
+
+        $router->put('/{id}', 'Phast\App\Modules\{{MODULE_NAME}}\Controllers\{{MODULE_NAME}}Controller@update')
+            ->name('{{MODULE_SNAKE}}.update');
+
+        $router->delete('/{id}', 'Phast\App\Modules\{{MODULE_NAME}}\Controllers\{{MODULE_NAME}}Controller@destroy')
+            ->name('{{MODULE_SNAKE}}.destroy');
     });
 });

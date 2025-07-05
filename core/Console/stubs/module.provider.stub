@@ -14,19 +14,24 @@ declare(strict_types=1);
 namespace Phast\App\Modules\{{MODULE_NAME}}\Providers;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
+use Phast\App\Modules\{{MODULE_NAME}}\Models\Repositories\{{MODULE_NAME}}Repository;
+use Phast\App\Modules\{{MODULE_NAME}}\Services\{{MODULE_NAME}}Service;
 
 class {{MODULE_NAME}}ServiceProvider extends AbstractServiceProvider
 {
     protected $provides = [
-        // Register services that this provider provides
+        {{MODULE_NAME}}Repository::class,
+        {{MODULE_NAME}}Service::class,
     ];
 
     public function register(): void
     {
-        // Register module services in the container
-        
-        // Example:
-        // $this->container->add(SomeService::class)->addArgument(SomeDependency::class);
+        // Register repository
+        $this->container->add({{MODULE_NAME}}Repository::class);
+
+        // Register service with repository dependency
+        $this->container->add({{MODULE_NAME}}Service::class)
+            ->addArgument({{MODULE_NAME}}Repository::class);
     }
 
     public function boot(): void
