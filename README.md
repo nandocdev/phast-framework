@@ -1,667 +1,157 @@
-# Phast Framework
+<div align="center">
+  <img src="https://raw.githubusercontent.com/your-username/phast/main/docs/assets/logo.png" alt="Phast Framework Logo" width="200">
+  <h1>Phast Framework</h1>
+  <p><strong>Un framework PHP diseñado para la velocidad, la estructura y la elegancia.</strong></p>
+  <p>Construido sobre principios de Arquitectura Limpia, SOLID y DDD para ofrecer una experiencia de desarrollo excepcional.</p>
+  
+  <p>
+    <a href="#"><img src="https://img.shields.io/badge/php-8.2+-blue.svg" alt="PHP Version"></a>
+    <a href="#"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
+    <a href="#"><img src="https://img.shields.io/badge/build-passing-brightgreen.svg" alt="Build Status"></a>
+    <a href="#"><img src="https://img.shields.io/badge/contributions-welcome-orange.svg" alt="Contributions Welcome"></a>
+  </p>
+</div>
 
-Un framework PHP moderno y limpio basado en principios de arquitectura limpia y código SOLID.
+---
 
-## Características
+**Phast** no es solo otro framework PHP. Es una filosofía de desarrollo que prioriza la claridad, la mantenibilidad y la productividad. Diseñado para desarrolladores que aprecian el código limpio y una estructura modular, Phast te permite construir aplicaciones robustas y escalables, desde APIs RESTful hasta aplicaciones web completas.
 
--  **Arquitectura Limpia**: Separación clara de responsabilidades
--  **Inyección de Dependencias**: Container DI personalizado
--  **Routing**: Sistema de rutas flexible con FastRoute
--  **Middlewares**: Sistema de middlewares para interceptar requests
--  **Validación**: Sistema de validación robusto
--  **Vistas**: Motor de plantillas con League Plates
--  **ORM**: Implementación con Doctrine ORM
--  **Logs**: Sistema de logging con Monolog
--  **Migraciones**: Control de versiones de base de datos con Phinx### Patrones de Diseño
+Nuestra misión es proporcionar una base sólida y bien organizada que te libere para centrarte en lo que realmente importa: la lógica de negocio de tu aplicación.
 
--  **Repository Pattern**: Abstracción del acceso a datos
--  **Service Layer**: Lógica de negocio
--  **Dependency Injection**: Inversión de control
--  **Value Objects**: Objetos inmutables con validación
--  **Factory Pattern**: Creación de objetos complejos
--  **Middleware Pattern**: Pipeline de procesamiento de requests
+## Principios Fundamentales
 
-## Sistema de Middlewares
+Phast se construye sobre una base de principios de ingeniería de software probados en la industria:
 
-El framework incluye un sistema completo de middlewares que permite interceptar y procesar las peticiones HTTP antes de que lleguen al controlador.
+-  🏛️ **Arquitectura Limpia**: Una estricta separación de capas (Dominio, Aplicación, Infraestructura) que garantiza un bajo acoplamiento y una alta cohesión.
+-  SOLID: Cada componente del framework y de tu aplicación está diseñado siguiendo los cinco principios SOLID.
+-  🧩 **Modularidad**: Organiza tu aplicación en módulos de dominio autocontenidos. Cada módulo tiene sus propios controladores, servicios, entidades y rutas, fomentando la reutilización y el desarrollo en equipo.
+-  🚀 **Experiencia de Desarrollador (DX)**: Un potente sistema de **comandos CLI** para generar módulos, controladores, entidades, servicios y más, automatizando las tareas repetitivas.
 
-### Middlewares Incluidos
+## Características Principales
 
--  **CorsMiddleware**: Manejo de CORS para peticiones cross-origin
--  **AuthMiddleware**: Autenticación JWT/Bearer token
--  **RateLimitMiddleware**: Limitación de peticiones por IP
--  **LoggingMiddleware**: Logging de requests y responses con métricas
+| Característica            | Descripción                                                                 |
+| ------------------------- | --------------------------------------------------------------------------- |
+| CLI Robusta               | Genera y elimina módulos y componentes (`make:module`, `delete:entity`...). |
+| Inyección de Dependencias | Contenedor DI para una gestión automática de dependencias.                  |
+| Routing Flexible          | Sistema de rutas basado en `FastRoute` con grupos, middleware y nombres.    |
+| ORM y Base de Datos       | Integración con `Doctrine` y migraciones con `Phinx`.                       |
+| Capa de Servicio          | Lógica de negocio encapsulada y reutilizable.                               |
+| Patrón Repositorio        | Abstracción completa de la capa de acceso a datos.                          |
+| Middlewares               | Pipeline de procesamiento de peticiones HTTP (CORS, Auth, Rate Limiting).   |
+| Motor de Vistas           | Sistema de plantillas potente y extensible con `League/Plates`.             |
+| Validación                | Reglas de validación integradas para datos de entrada.                      |
+| Logging                   | Sistema de logs flexible con `Monolog`.                                     |
 
-### Uso de Middlewares
+## Primeros Pasos
 
-#### Middleware Global
+### Requisitos
 
-Aplica a todas las rutas:
+-  PHP 8.2+
+-  Composer
 
-```php
-$router->globalMiddleware([
-    \Phast\Core\Http\Middleware\CorsMiddleware::class,
-    \Phast\Core\Http\Middleware\LoggingMiddleware::class,
-]);
-```
+### Instalación en 5 Minutos
 
-#### Middleware en Grupos
+1. **Crear el proyecto**
 
-Aplica a un grupo de rutas:
+   ```bash
+   composer create-project your-username/phast-project
+   cd phast-project
+   ```
 
-```php
-$router->group([
-    'prefix' => '/api',
-    'middleware' => [\Phast\Core\Http\Middleware\RateLimitMiddleware::class]
-], function ($router) {
-    // Rutas del API con rate limiting
-});
-```
+2. **Configurar el entorno**
 
-#### Middleware en Rutas Específicas
+   ```bash
+   cp .env.example .env
+   # Edita .env con la configuración de tu base de datos
+   ```
 
-Aplica a una ruta individual:
+3. **Ejecutar las migraciones**
 
-```php
-$router->get('/admin', 'AdminController@index')
-       ->middleware([\Phast\Core\Http\Middleware\AuthMiddleware::class]);
-```
+   ```bash
+   composer migrate
+   ```
 
-#### Middleware con Nombres
+4. **Iniciar el servidor**
+   ```bash
+   composer serve
+   ```
 
-Las rutas pueden tener nombres para referencia:
+¡Tu aplicación Phast estará disponible en `http://localhost:8000`!
 
-```php
-$router->get('/users', 'UserController@index')
-       ->name('users.index')
-       ->middleware([AuthMiddleware::class]);
-```
+## La Experiencia de Desarrollo Phast
 
-### Crear Middleware Personalizado
+Creemos que un desarrollador feliz es un desarrollador productivo. Por eso, hemos puesto un gran énfasis en la **Experiencia de Desarrollador (DX)**.
 
-```php
-<?php
+### Generación de Código con la CLI
 
-namespace App\Middleware;
+Olvídate de crear archivos y estructuras de directorios manualmente. Usa nuestros comandos para acelerar tu flujo de trabajo.
 
-use Phast\Core\Http\Middleware\MiddlewareInterface;
-use Phast\Core\Http\Request;
-use Phast\Core\Http\Response;
-
-class CustomMiddleware implements MiddlewareInterface
-{
-    public function handle(Request $request, callable $next): Response
-    {
-        // Lógica antes del controlador
-        $response = $next($request);
-        // Lógica después del controlador
-        return $response;
-    }
-}
-```
-
-### Configuración de Middlewares
-
-#### CORS Middleware
-
-```php
-$corsMiddleware = new CorsMiddleware([
-    'allowed_origins' => ['*'],
-    'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE'],
-    'allowed_headers' => ['Content-Type', 'Authorization'],
-    'max_age' => 86400,
-    'allow_credentials' => false,
-]);
-```
-
-#### Rate Limit Middleware
-
-`````php
-$rateLimitMiddleware = new RateLimitMiddleware(60, 60); // 60 requests per 60 seconds
-```  **Routing**: Sistema de rutas flexible con FastRoute
--  **Validación**: Sistema de validación robusto
--  **ORM**: Implementación con Doctrine ORM
--  **Logs**: Sistema de logging con Monolog
--  **Migraciones**: Control de versiones de base de datos con Phinx
-
-## Estructura del Proyecto
-
-````text
-
-├── app/ # Código de la aplicación
-│ ├── Modules/ # Módulos de la aplicación
-│ │ └── Users/ # Módulo de usuarios (ejemplo)
-│ │ ├── Controllers/
-│ │ ├── Models/
-│ │ │ ├── Entities/
-│ │ │ ├── Repositories/
-│ │ │ └── ValueObjects/
-│ │ ├── Services/
-│ │ └── routes.php
-│ └── routes.php # Rutas principales
-├── config/ # Archivos de configuración
-├── core/ # Core del framework
-│ ├── Application/ # Bootstrap y Container
-│ ├── Config/ # Sistema de configuración
-│ ├── Contracts/ # Interfaces
-│ ├── Http/ # Request, Response, Controller
-│ │ └── Middleware/ # Sistema de middlewares
-│ ├── Routing/ # Sistema de rutas
-│ └── Validation/ # Sistema de validación
-├── migrations/ # Migraciones de base de datos
-├── public/ # Punto de entrada web
-├── resources/ # Recursos (views, assets)
-├── storage/ # Almacenamiento (logs, cache)
-└── vendor/ # Dependencias de Composer
-
-`````
-
-## Instalación
-
-1. **Clonar el repositorio**
+**Crear un módulo completo con un solo comando:**
 
 ```bash
-git clone <repository-url> phast-project
-cd phast-project
+php phast make:module Blog
 ```
 
-2. **Instalar dependencias**
+Este comando generará toda la estructura del módulo `Blog`, incluyendo:
+
+-  `app/Modules/Blog/`
+-  `Controllers/BlogController.php`
+-  `Services/BlogService.php`
+-  `Models/Entities/BlogEntity.php`
+-  `Models/Repositories/BlogRepository.php`
+-  `Providers/BlogServiceProvider.php`
+-  `routes.php`
+
+**Generar componentes individuales:**
 
 ```bash
-composer install
+# Crear un nuevo controlador
+php phast make:controller PostController --module=Blog
+
+# Crear una nueva entidad y su repositorio
+php phast make:entity Post --module=Blog
+php phast make:repository PostRepository --module=Blog
 ```
 
-3. **Configurar entorno**
+### Arquitectura Modular
 
-```bash
-cp .env.example .env
-# Editar .env con tus configuraciones
-```
+La estructura de `app/Modules` te permite encapsular la lógica de cada dominio de tu aplicación. Esto no solo mantiene el código organizado, sino que también facilita:
 
-4. **Ejecutar migraciones**
-
-```bash
-./vendor/bin/phinx migrate
-```
-
-5. **Iniciar servidor de desarrollo**
-
-```bash
-php -S localhost:8000 -t public
-```
-
-## Uso
-
-### Crear un Módulo
-
-Un módulo sigue esta estructura:
-
-```
-app/Modules/ModuleName/
-├── Controllers/
-│   └── ModuleController.php
-├── Models/
-│   ├── Entities/
-│   │   └── ModuleEntity.php
-│   ├── Repositories/
-│   │   ├── ModuleRepositoryInterface.php
-│   │   └── ModuleRepository.php
-│   └── ValueObjects/
-├── Services/
-│   └── ModuleService.php
-├── Providers/
-│   └── ModuleServiceProvider.php
-└── routes.php
-```
-
-### Definir Rutas
-
-```php
-// app/Modules/ModuleName/routes.php
-$router->group(['prefix' => '/module'], function ($router) {
-    $router->get('/', 'Controller@index');
-    $router->post('/', 'Controller@store');
-    $router->get('/{id}', 'Controller@show');
-    $router->put('/{id}', 'Controller@update');
-    $router->delete('/{id}', 'Controller@destroy');
-});
-```
-
-### Crear Controller
-
-```php
-<?php
-
-namespace Phast\App\Modules\ModuleName\Controllers;
-
-use Phast\Core\Http\Controller;
-use Phast\Core\Http\Request;
-use Phast\Core\Http\Response;
-
-class ModuleController extends Controller
-{
-    public function index(Request $request): Response
-    {
-        return $this->json(['message' => 'Hello World']);
-    }
-}
-```
-
-### Crear Entity
-
-```php
-<?php
-
-namespace Phast\App\Modules\ModuleName\Models\Entities;
-
-class ModuleEntity
-{
-    private ?int $id = null;
-    private string $name;
-
-    public function __construct(string $name, ?int $id = null)
-    {
-        $this->name = $name;
-        $this->id = $id;
-    }
-
-    // Getters y setters...
-
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-        ];
-    }
-}
-```
-
-### Crear Repository
-
-```php
-<?php
-
-namespace Phast\App\Modules\ModuleName\Models\Repositories;
-
-interface ModuleRepositoryInterface
-{
-    public function findAll(): array;
-    public function findById(int $id): ?ModuleEntity;
-    public function save(ModuleEntity $entity): ModuleEntity;
-    public function delete(int $id): bool;
-}
-
-class ModuleRepository implements ModuleRepositoryInterface
-{
-    private PDO $db;
-
-    public function __construct(PDO $db)
-    {
-        $this->db = $db;
-    }
-
-    // Implementar métodos...
-}
-```
-
-### Crear Service
-
-```php
-<?php
-
-namespace Phast\App\Modules\ModuleName\Services;
-
-class ModuleService
-{
-    private ModuleRepositoryInterface $repository;
-
-    public function __construct(ModuleRepositoryInterface $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    public function getAllItems(): array
-    {
-        return $this->repository->findAll();
-    }
-}
-```
-
-## API Endpoints (Módulo Users)
-
--  `GET /api/users` - Obtener todos los usuarios (con rate limiting)
--  `GET /api/users/{id}` - Obtener usuario por ID (con rate limiting)
--  `POST /api/users` - Crear nuevo usuario (requiere autenticación)
--  `PUT /api/users/{id}` - Actualizar usuario (requiere autenticación)
--  `DELETE /api/users/{id}` - Eliminar usuario (requiere autenticación)
-
-### Endpoints Adicionales
-
--  `GET /` - Página de inicio con información del framework
--  `GET /api/health` - Health check del API
--  `GET /api/profile` - Perfil del usuario autenticado (requiere autenticación)
-
-### Ejemplo de uso:
-
-```bash
-# Crear usuario (requiere autenticación)
-curl -X POST http://localhost:8000/api/users \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer your-token-here" \
-  -d '{"name": "Juan Pérez", "email": "juan@example.com", "password": "123456"}'
-
-# Obtener usuarios (con rate limiting)
-curl http://localhost:8000/api/users
-
-# Obtener usuario específico
-curl http://localhost:8000/api/users/1
-
-# Health check
-curl http://localhost:8000/api/health
-```
-
-## Sistema de Vistas
-
-El framework incluye un motor de plantillas basado en **League Plates** que proporciona una experiencia de desarrollo fluida y potente para la creación de vistas.
-
-### Estructura de Directorios
+-  **Navegación**: Encuentra rápidamente el código relacionado con una funcionalidad.
+-  **Reutilización**: Mueve módulos entre proyectos con mínimas modificaciones.
+-  **Colaboración**: Los equipos pueden trabajar en diferentes módulos de forma independiente.
 
 ```text
-/resources
-├── templates
-│   ├── layouts     # Plantillas principales
-│   └── partials    # Componentes reutilizables
-└── views           # Vistas de la aplicación
+app/
+└── Modules/
+    ├── Users/
+    │   ├── Controllers/
+    │   ├── Models/
+    │   ├── Services/
+    │   └── routes.php
+    └── Orders/
+        ├── Controllers/
+        ├── Models/
+        ├── Services/
+        └── routes.php
 ```
 
-### Uso Básico
+## Documentación Completa
 
-#### Renderizar una Vista desde un Controller
+Para una guía detallada sobre cada componente del framework, desde la arquitectura hasta tutoriales prácticos, visita nuestra **documentación oficial**.
 
-```php
-class HomeController extends Controller
-{
-    public function index(Request $request): Response
-    {
-        return $this->view('welcome', [
-            'title' => 'Bienvenido',
-            'user' => $request->user(),
-            'features' => $this->getFeatures()
-        ]);
-    }
+➡️ **[Leer la documentación completa](./docs/README.md)**
 
-    public function users(Request $request): Response
-    {
-        return $this->view('users/index', [
-            'users' => $this->userService->getAllUsers()
-        ], 'admin'); // Usando layout personalizado
-    }
-}
-```
+## Contribuciones
 
-#### Método view()
+Las contribuciones son bienvenidas. Si quieres mejorar Phast, por favor, sigue estos pasos:
 
-```php
-protected function view(string $template, array $data = [], string $layout = 'default'): Response
-```
-
--  **$template**: Nombre de la plantilla (sin extensión .phtml)
--  **$data**: Array de datos para pasar a la vista
--  **$layout**: Layout a utilizar (default: 'default')
-
-### Características del Motor de Vistas
-
-#### Layouts
-
-Los layouts definen la estructura base de las páginas:
-
-```php
-// En la vista
-<?php $this->layout('layouts::default', ['title' => 'Mi Página']) ?>
-
-<div class="content">
-    <!-- Contenido de la vista -->
-</div>
-```
-
-#### Partials
-
-Incluir componentes reutilizables:
-
-```php
-<!-- Incluir navegación -->
-<?= $this->insert('partials::navigation') ?>
-
-<!-- Incluir footer -->
-<?= $this->insert('partials::footer') ?>
-```
-
-#### Secciones
-
-Definir contenido dinámico en layouts:
-
-```php
-<!-- En la vista -->
-<?php $this->start('styles') ?>
-<link href="custom.css" rel="stylesheet">
-<?php $this->stop() ?>
-
-<!-- En el layout -->
-<?= $this->section('styles') ?>
-```
-
-#### Escape de Datos
-
-Protección automática contra XSS:
-
-```php
-<!-- Datos escapados automáticamente -->
-<h1><?= $this->e($title) ?></h1>
-<p><?= $this->e($user['name']) ?></p>
-
-<!-- Contenido sin escapar (usar con precaución) -->
-<div><?= $trustedHtml ?></div>
-```
-
-### Helpers Disponibles
-
-#### Helper url()
-
-```php
-<a href="<?= $this->url('/users') ?>">Ver Usuarios</a>
-<a href="<?= $this->url('/') ?>">Inicio</a>
-```
-
-#### Helper asset()
-
-```php
-<link href="<?= $this->asset('css/app.css') ?>" rel="stylesheet">
-<script src="<?= $this->asset('js/app.js') ?>"></script>
-<img src="<?= $this->asset('images/logo.png') ?>" alt="Logo">
-```
-
-#### Helper config()
-
-```php
-<title><?= $this->config('app.name', 'Mi App') ?></title>
-<meta name="version" content="<?= $this->config('app.version') ?>">
-```
-
-#### Helper json()
-
-```php
-<script>
-    const appData = <?= $this->json($data) ?>;
-    const config = <?= $this->json(['api_url' => $this->url('/api')]) ?>;
-</script>
-```
-
-### Configuración
-
-La configuración de vistas se encuentra en `config/view.php`:
-
-```php
-return [
-    'views_path' => PHAST_BASE_PATH . '/resources/views',
-    'templates_path' => PHAST_BASE_PATH . '/resources/templates',
-    'file_extension' => 'phtml',
-    'default_layout' => 'default',
-    'cache_enabled' => false,
-    'global_data' => [
-        'app_name' => env('APP_NAME', 'Phast Application'),
-        'app_version' => '1.0.0',
-    ],
-];
-```
-
-### View Composers
-
-Inyectar datos automáticamente en vistas específicas:
-
-```php
-// En un Service Provider
-$viewEngine = app(ViewInterface::class);
-
-$viewEngine->composer('layouts/*', function ($data) {
-    $data['currentUser'] = auth()->user();
-    $data['notifications'] = notifications()->unread();
-    return $data;
-});
-
-$viewEngine->composer('users/*', function ($data) {
-    $data['userStats'] = $this->userService->getStats();
-    return $data;
-});
-```
-
-### Plantillas de Ejemplo
-
-#### Layout Principal (layouts/default.phtml)
-
-```php
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title><?= $this->e($title ?? 'Phast Framework') ?></title>
-    <link href="<?= $this->asset('css/app.css') ?>" rel="stylesheet">
-    <?= $this->section('styles') ?>
-</head>
-<body>
-    <?= $this->insert('partials::navigation') ?>
-
-    <main>
-        <?= $content ?>
-    </main>
-
-    <?= $this->insert('partials::footer') ?>
-
-    <script src="<?= $this->asset('js/app.js') ?>"></script>
-    <?= $this->section('scripts') ?>
-</body>
-</html>
-```
-
-#### Vista de Usuario (views/users/index.phtml)
-
-```php
-<?php $this->layout('layouts::default', ['title' => 'Usuarios']) ?>
-
-<div class="container">
-    <h1>Lista de Usuarios</h1>
-
-    <?php if (!empty($users)): ?>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($users as $user): ?>
-                        <tr>
-                            <td><?= $this->e($user['id']) ?></td>
-                            <td><?= $this->e($user['name']) ?></td>
-                            <td><?= $this->e($user['email']) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    <?php else: ?>
-        <p>No hay usuarios registrados.</p>
-    <?php endif; ?>
-</div>
-
-<?php $this->start('scripts') ?>
-<script>
-    console.log('Vista de usuarios cargada');
-</script>
-<?php $this->stop() ?>
-```
-
-## Principios Aplicados
-
-### SOLID
-
--  **S** - Single Responsibility: Cada clase tiene una responsabilidad específica
--  **O** - Open/Closed: Abierto para extensión, cerrado para modificación
--  **L** - Liskov Substitution: Las implementaciones pueden sustituir interfaces
--  **I** - Interface Segregation: Interfaces específicas y cohesivas
--  **D** - Dependency Inversion: Depende de abstracciones, no de concreciones
-
-### Clean Architecture
-
--  **Entities**: Objetos de negocio con reglas empresariales
--  **Use Cases**: Lógica de aplicación específica
--  **Interface Adapters**: Controllers, Presenters, Gateways
--  **Frameworks & Drivers**: Framework, Base de datos, Web
-
-### Patrones de Diseño
-
--  **Repository Pattern**: Abstracción del acceso a datos
--  **Service Layer**: Lógica de negocio
--  **Dependency Injection**: Inversión de control
--  **Value Objects**: Objetos inmutables con validación
--  **Factory Pattern**: Creación de objetos complejos
-
-## Comandos Útiles
-
-```bash
-# Servidor de desarrollo
-composer serve
-# O alternativamente:
-php -S localhost:8000 -t public
-
-# Migraciones
-composer migrate
-./vendor/bin/phinx create CreateTableName
-./vendor/bin/phinx migrate
-./vendor/bin/phinx rollback
-
-# Tests
-composer test
-./vendor/bin/phpunit
-
-# Análisis de código
-./vendor/bin/phpstan analyse
-
-# Formateo de código
-./vendor/bin/php-cs-fixer fix
-```
-
-## Contribución
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+1. Haz un Fork del proyecto.
+2. Crea una nueva rama (`git checkout -b feature/nueva-caracteristica`).
+3. Realiza tus cambios y haz commit (`git commit -m 'feat: Agrega nueva característica'`).
+4. Haz push a tu rama (`git push origin feature/nueva-caracteristica`).
+5. Abre un Pull Request.
 
 ## Licencia
 
-Este proyecto está licenciado bajo la Licencia MIT.
+Phast Framework es un software de código abierto licenciado bajo la [Licencia MIT](LICENSE).
