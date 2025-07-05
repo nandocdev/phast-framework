@@ -15,7 +15,8 @@
         "robmorgan/phinx": "^0.16.9",
         "symfony/validator": "^7.3",
         "respect/validation": "^2.4",
-        "league/plates": "^3.6"
+        "league/plates": "^3.6",
+        "symfony/console": "^7.3"
     },
     "require-dev": {
         "filp/whoops": "^2.18",
