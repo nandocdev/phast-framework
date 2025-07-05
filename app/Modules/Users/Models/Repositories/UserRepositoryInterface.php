@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phast\App\Modules\Users\Models\Repositories;
 
 use Phast\App\Modules\Users\Models\Entities\UserEntity;
+use Phast\Core\Exceptions\Domain\EntityNotFoundException;
 
 interface UserRepositoryInterface {
    /**
@@ -23,13 +24,25 @@ interface UserRepositoryInterface {
 
    /**
     * Find user by ID
+    * @throws EntityNotFoundException
     */
-   public function findById(int $id): ?UserEntity;
+   public function findById(int $id): UserEntity;
+
+   /**
+    * Find user by ID or return null
+    */
+   public function findByIdOrNull(int $id): ?UserEntity;
 
    /**
     * Find user by email
+    * @throws EntityNotFoundException
     */
-   public function findByEmail(string $email): ?UserEntity;
+   public function findByEmail(string $email): UserEntity;
+
+   /**
+    * Find user by email or return null
+    */
+   public function findByEmailOrNull(string $email): ?UserEntity;
 
    /**
     * Save user (create or update)

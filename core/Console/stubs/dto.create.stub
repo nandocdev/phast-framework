@@ -1,0 +1,58 @@
+<?php
+/**
+ * @package     phast/app
+ * @subpackage  Modules/{{moduleName}}/DataTransfer
+ * @file        Create{{entityName}}DTO
+ * @author      Fernando Castillo <fdocst@gmail.com>
+ * @date        {{date}}
+ * @version     1.0.0
+ * @description DTO for creating a new {{entityName}}
+ */
+
+declare(strict_types=1);
+
+namespace Phast\App\Modules\{{moduleName}}\DataTransfer;
+
+use Phast\Core\DataTransfer\DataTransferObject;
+use Phast\Core\Validation\ValidationResult;
+use Phast\Core\Validation\SimpleValidator;
+
+/**
+ * Data Transfer Object for creating a {{entityName}}
+ */
+class Create{{entityName}}DTO extends DataTransferObject
+{
+    public readonly string $name;
+    public readonly string $email;
+    
+    protected function validate(array $data): ValidationResult
+    {
+        $validator = new SimpleValidator();
+        return $validator->validateWithResult($data, $this->getRules());
+    }
+    
+    protected function populate(array $data): static
+    {
+        $instance = clone $this;
+        $instance->name = $data['name'];
+        $instance->email = filter_var($data['email'], FILTER_SANITIZE_EMAIL);
+        
+        return $instance;
+    }
+    
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+        ];
+    }
+    
+    protected function getRules(): array
+    {
+        return [
+            'name' => ['required', 'string', 'min:2', 'max:100'],
+            'email' => ['required', 'email', 'max:255'],
+        ];
+    }
+}

@@ -1,0 +1,74 @@
+<?php
+/**
+ * @package     phast/app
+ * @subpackage  Modules/{{moduleName}}/DataTransfer
+ * @file        Update{{entityName}}DTO
+ * @author      Fernando Castillo <fdocst@gmail.com>
+ * @date        {{date}}
+ * @version     1.0.0
+ * @description DTO for updating a {{entityName}}
+ */
+
+declare(strict_types=1);
+
+namespace Phast\App\Modules\{{moduleName}}\DataTransfer;
+
+use Phast\Core\DataTransfer\DataTransferObject;
+use Phast\Core\Validation\ValidationResult;
+use Phast\Core\Validation\SimpleValidator;
+
+/**
+ * Data Transfer Object for updating a {{entityName}}
+ */
+class Update{{entityName}}DTO extends DataTransferObject
+{
+    public readonly ?string $name;
+    public readonly ?string $email;
+    
+    protected function validate(array $data): ValidationResult
+    {
+        // Remove null/empty values for partial updates
+        $filteredData = array_filter($data, fn($value) => $value !== null && $value !== '');
+        
+        $validator = new SimpleValidator();
+        return $validator->validateWithResult($filteredData, $this->getRules());
+    }
+    
+    protected function populate(array $data): static
+    {
+        $instance = clone $this;
+        $instance->name = $data['name'] ?? null;
+        $instance->email = isset($data['email']) ? filter_var($data['email'], FILTER_SANITIZE_EMAIL) : null;
+        
+        return $instance;
+    }
+    
+    public function toArray(): array
+    {
+        return array_filter([
+            'name' => $this->name,
+            'email' => $this->email,
+        ], fn($value) => $value !== null);
+    }
+    
+    public function getModifiedFields(): array
+    {
+        return $this->toArray();
+    }
+    
+    protected function getRules(): array
+    {
+        return [
+            'name' => ['string', 'min:2', 'max:100'],
+            'email' => ['email', 'max:255'],
+        ];
+    }
+    
+    /**
+     * Check if any field is being updated
+     */
+    public function hasUpdates(): bool
+    {
+        return !empty($this->getModifiedFields());
+    }
+}
