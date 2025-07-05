@@ -29,3 +29,6 @@ Thumbs.db
 *.swp
 *.bak
 *.tmp
+
+# Composer lock file
+composer.lock
