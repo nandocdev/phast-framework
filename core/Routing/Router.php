@@ -57,32 +57,75 @@ class Router {
       }
 
       return $route;
-   }
-
+   }   /**
+    * Register a group of routes with shared attributes
+    * 
+    * VERSIÓN CORREGIDA: Trabaja directamente con referencias y aplica
+    * los atributos del grupo correctamente a todas las rutas registradas.
+    * Maneja correctamente los separadores de rutas para grupos anidados.
+    * 
+    * @param array $attributes Array with 'prefix', 'middleware', 'name' keys
+    * @param callable $callback Callback that receives the router instance
+    */
    public function group(array $attributes, callable $callback): void {
       $prefix = $attributes['prefix'] ?? '';
       $middleware = $attributes['middleware'] ?? [];
       $name = $attributes['name'] ?? '';
 
-      $originalMiddlewares = $this->middlewares;
-      $this->middlewares = array_merge($this->middlewares, (array) $middleware);
-
-      $router = new self();
-      $callback($router);
-
-      foreach ($router->routes as $route) {
-         $route['uri'] = $prefix . $route['uri'];
-         $route['middleware'] = array_merge($route['middleware'], $this->middlewares);
-
-         if ($name) {
-            $route['name'] = $name . '.' . ($route['name'] ?? '');
-         }
-
-         $this->routes[] = $route;
+      // Normalize prefix - ensure it starts with / and doesn't end with /
+      if (!empty($prefix)) {
+         $prefix = '/' . trim($prefix, '/');
       }
 
+      // Guardar estado original de middlewares
+      $originalMiddlewares = $this->middlewares;
+      
+      // Aplicar middlewares del grupo temporalmente
+      $this->middlewares = array_merge($this->middlewares, (array) $middleware);
+
+      // Crear router temporal para capturar rutas del grupo
+      $groupRouter = new self();
+      
+      // Ejecutar callback con el router temporal
+      $callback($groupRouter);
+
+      // Procesar todas las rutas registradas en el grupo
+      foreach ($groupRouter->routes as $routeData) {
+         // Normalize route URI
+         $routeUri = '/' . trim($routeData['uri'], '/');
+         
+         // Crear nueva ruta con atributos del grupo aplicados
+         $processedRoute = [
+            'method' => $routeData['method'],
+            'uri' => $prefix . $routeUri, // Aplicar prefijo con separadores correctos
+            'handler' => $routeData['handler'],
+            'middleware' => array_merge($routeData['middleware'], $this->middlewares), // Combinar middlewares
+            'name' => $this->buildRouteName($name, $routeData['name'] ?? '') // Aplicar prefijo de nombre
+         ];
+
+         // Agregar la ruta procesada al router principal
+         $this->routes[] = $processedRoute;
+      }
+
+      // Restaurar middlewares originales
       $this->middlewares = $originalMiddlewares;
    }
+
+   /**
+    * Build route name with group prefix
+    */
+   private function buildRouteName(string $groupName, string $routeName): string {
+      if (empty($groupName)) {
+         return $routeName;
+      }
+
+      if (empty($routeName)) {
+         return $groupName;
+      }
+
+      return $groupName . '.' . $routeName;
+   }
+
 
    public function middleware(string|array $middleware): self {
       $this->middlewares = array_merge($this->middlewares, (array) $middleware);

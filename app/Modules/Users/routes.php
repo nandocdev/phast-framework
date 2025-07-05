@@ -41,7 +41,8 @@ $router->group(['prefix' => 'users'], function ($router) {
       ]);
    })->name('users.index');
 
-   $router->get('/{id}', function ($id) {
+   $router->get('/{id}', function ($request) {
+      $id = $request->getRouteParam('id');
       return response()->json([
          'user' => ['id' => $id, 'name' => 'Usuario ' . $id, 'email' => 'user' . $id . '@example.com'],
          'source' => 'module_mock'
