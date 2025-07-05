@@ -29,9 +29,9 @@ $console = new Phast\Core\Console\Application($bootstrap);
 
 // Run the console application
 try {
-    $exitCode = $console->run();
-    exit($exitCode);
+   $exitCode = $console->run();
+   exit($exitCode);
 } catch (Exception $e) {
-    echo "Error: " . $e->getMessage() . PHP_EOL;
-    exit(1);
+   echo "Error: " . $e->getMessage() . PHP_EOL;
+   exit(1);
 }

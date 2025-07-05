@@ -20,60 +20,57 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: 'serve',
-    description: 'Start the Phast development server'
+   name: 'serve',
+   description: 'Start the Phast development server'
 )]
-class ServeCommand extends BaseCommand
-{
-    protected function configure(): void
-    {
-        $this
-            ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'The host address to serve the application on', 'localhost')
-            ->addOption('port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on', '8000')
-            ->addOption('public', null, InputOption::VALUE_OPTIONAL, 'The public directory', 'public')
-            ->setHelp('This command starts the built-in PHP development server...');
-    }
+class ServeCommand extends BaseCommand {
+   protected function configure(): void {
+      $this
+         ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'The host address to serve the application on', 'localhost')
+         ->addOption('port', null, InputOption::VALUE_OPTIONAL, 'The port to serve the application on', '8000')
+         ->addOption('public', null, InputOption::VALUE_OPTIONAL, 'The public directory', 'public')
+         ->setHelp('This command starts the built-in PHP development server...');
+   }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $host = $input->getOption('host');
-        $port = $input->getOption('port');
-        $public = $input->getOption('public');
-        
-        $publicPath = $this->basePath . '/' . $public;
-        
-        if (!is_dir($publicPath)) {
-            $this->io->error("Public directory '{$public}' does not exist!");
-            return self::FAILURE;
-        }
+   protected function execute(InputInterface $input, OutputInterface $output): int {
+      $host = $input->getOption('host');
+      $port = $input->getOption('port');
+      $public = $input->getOption('public');
 
-        $address = "{$host}:{$port}";
-        $indexFile = $publicPath . '/index.php';
+      $publicPath = $this->basePath . '/' . $public;
 
-        if (!file_exists($indexFile)) {
-            $this->io->error("Entry point 'index.php' not found in public directory!");
-            return self::FAILURE;
-        }
+      if (!is_dir($publicPath)) {
+         $this->io->error("Public directory '{$public}' does not exist!");
+         return self::FAILURE;
+      }
 
-        $this->io->info("Starting Phast development server on http://{$address}");
-        $this->io->note([
-            "Document root: {$publicPath}",
-            "Press Ctrl+C to stop the server"
-        ]);
+      $address = "{$host}:{$port}";
+      $indexFile = $publicPath . '/index.php';
 
-        $command = sprintf(
-            '%s -S %s -t %s %s',
-            PHP_BINARY,
-            escapeshellarg($address),
-            escapeshellarg($publicPath),
-            escapeshellarg($indexFile)
-        );
+      if (!file_exists($indexFile)) {
+         $this->io->error("Entry point 'index.php' not found in public directory!");
+         return self::FAILURE;
+      }
 
-        $this->io->comment("Executing: {$command}");
+      $this->io->info("Starting Phast development server on http://{$address}");
+      $this->io->note([
+         "Document root: {$publicPath}",
+         "Press Ctrl+C to stop the server"
+      ]);
 
-        // Use exec to replace current process
-        exec($command);
+      $command = sprintf(
+         '%s -S %s -t %s %s',
+         PHP_BINARY,
+         escapeshellarg($address),
+         escapeshellarg($publicPath),
+         escapeshellarg($indexFile)
+      );
 
-        return self::SUCCESS;
-    }
+      $this->io->comment("Executing: {$command}");
+
+      // Use exec to replace current process
+      exec($command);
+
+      return self::SUCCESS;
+   }
 }

@@ -20,56 +20,53 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: 'make:controller',
-    description: 'Create a new controller in a module'
+   name: 'make:controller',
+   description: 'Create a new controller in a module'
 )]
-class MakeControllerCommand extends BaseCommand
-{
-    protected function configure(): void
-    {
-        $this
-            ->addArgument('module', InputArgument::REQUIRED, 'The name of the module')
-            ->addArgument('name', InputArgument::REQUIRED, 'The name of the controller')
-            ->setHelp('This command creates a new controller in the specified module...');
-    }
+class MakeControllerCommand extends BaseCommand {
+   protected function configure(): void {
+      $this
+         ->addArgument('module', InputArgument::REQUIRED, 'The name of the module')
+         ->addArgument('name', InputArgument::REQUIRED, 'The name of the controller')
+         ->setHelp('This command creates a new controller in the specified module...');
+   }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $module = $this->studlyCase($input->getArgument('module'));
-        $name = $this->studlyCase($input->getArgument('name'));
-        
-        if (!str_ends_with($name, 'Controller')) {
-            $name .= 'Controller';
-        }
+   protected function execute(InputInterface $input, OutputInterface $output): int {
+      $module = $this->studlyCase($input->getArgument('module'));
+      $name = $this->studlyCase($input->getArgument('name'));
 
-        if (!$this->moduleExists($module)) {
-            $this->io->error("Module '{$module}' does not exist!");
-            $this->io->note("Create it first with: php phast make:module {$module}");
-            return self::FAILURE;
-        }
+      if (!str_ends_with($name, 'Controller')) {
+         $name .= 'Controller';
+      }
 
-        $modulePath = $this->getModulePath($module);
-        $controllerPath = $modulePath . '/Controllers/' . $name . '.php';
+      if (!$this->moduleExists($module)) {
+         $this->io->error("Module '{$module}' does not exist!");
+         $this->io->note("Create it first with: php phast make:module {$module}");
+         return self::FAILURE;
+      }
 
-        if (file_exists($controllerPath)) {
-            $this->io->error("Controller '{$name}' already exists in module '{$module}'!");
-            return self::FAILURE;
-        }
+      $modulePath = $this->getModulePath($module);
+      $controllerPath = $modulePath . '/Controllers/' . $name . '.php';
 
-        $this->ensureDirectoryExists($modulePath . '/Controllers');
+      if (file_exists($controllerPath)) {
+         $this->io->error("Controller '{$name}' already exists in module '{$module}'!");
+         return self::FAILURE;
+      }
 
-        $content = $this->getStub('module.controller', [
-            'MODULE_NAME' => $module,
-            'CONTROLLER_NAME' => $name,
-            'CONTROLLER_BASE' => str_replace('Controller', '', $name),
-            'DATE' => date('Y-m-d'),
-        ]);
+      $this->ensureDirectoryExists($modulePath . '/Controllers');
 
-        file_put_contents($controllerPath, $content);
+      $content = $this->getStub('module.controller', [
+         'MODULE_NAME' => $module,
+         'CONTROLLER_NAME' => $name,
+         'CONTROLLER_BASE' => str_replace('Controller', '', $name),
+         'DATE' => date('Y-m-d'),
+      ]);
 
-        $this->io->success("Controller '{$name}' created successfully in module '{$module}'!");
-        $this->io->note("Controller created at: {$controllerPath}");
+      file_put_contents($controllerPath, $content);
 
-        return self::SUCCESS;
-    }
+      $this->io->success("Controller '{$name}' created successfully in module '{$module}'!");
+      $this->io->note("Controller created at: {$controllerPath}");
+
+      return self::SUCCESS;
+   }
 }

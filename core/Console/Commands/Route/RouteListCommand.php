@@ -21,88 +21,83 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 
 #[AsCommand(
-    name: 'routes:list',
-    description: 'List all registered routes'
+   name: 'routes:list',
+   description: 'List all registered routes'
 )]
-class RouteListCommand extends BaseCommand
-{
-    private Router $router;
+class RouteListCommand extends BaseCommand {
+   private Router $router;
 
-    public function __construct(Router $router)
-    {
-        parent::__construct();
-        $this->router = $router;
-    }
+   public function __construct(Router $router) {
+      parent::__construct();
+      $this->router = $router;
+   }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        // Create a temporary bootstrap to load routes
-        $bootstrap = new \Phast\Core\Application\Bootstrap();
-        $app = $bootstrap; // Variable expected by routes.php
-        
-        // Load routes
-        require_once $this->basePath . '/app/routes.php';
-        
-        $routes = $bootstrap->getRouter()->getRoutes();
+   protected function execute(InputInterface $input, OutputInterface $output): int {
+      // Create a temporary bootstrap to load routes
+      $bootstrap = new \Phast\Core\Application\Bootstrap();
+      $app = $bootstrap; // Variable expected by routes.php
 
-        if (empty($routes)) {
-            $this->io->warning('No routes registered!');
-            return self::SUCCESS;
-        }
+      // Load routes
+      require_once $this->basePath . '/app/routes.php';
 
-        $this->io->title('Registered Routes');
+      $routes = $bootstrap->getRouter()->getRoutes();
 
-        $table = new Table($output);
-        $table->setHeaders(['Method', 'URI', 'Handler', 'Middleware', 'Name']);
+      if (empty($routes)) {
+         $this->io->warning('No routes registered!');
+         return self::SUCCESS;
+      }
 
-        foreach ($routes as $route) {
-            $handler = $this->formatHandler($route['handler']);
-            $middleware = $this->formatMiddleware($route['middleware'] ?? []);
-            $name = $route['name'] ?? '';
+      $this->io->title('Registered Routes');
 
-            $table->addRow([
-                $route['method'],
-                $route['uri'],
-                $handler,
-                $middleware,
-                $name
-            ]);
-        }
+      $table = new Table($output);
+      $table->setHeaders(['Method', 'URI', 'Handler', 'Middleware', 'Name']);
 
-        $table->render();
+      foreach ($routes as $route) {
+         $handler = $this->formatHandler($route['handler']);
+         $middleware = $this->formatMiddleware($route['middleware'] ?? []);
+         $name = $route['name'] ?? '';
 
-        $this->io->note("Total routes: " . count($routes));
+         $table->addRow([
+            $route['method'],
+            $route['uri'],
+            $handler,
+            $middleware,
+            $name
+         ]);
+      }
 
-        return self::SUCCESS;
-    }
+      $table->render();
 
-    private function formatHandler($handler): string
-    {
-        if (is_string($handler)) {
-            return $handler;
-        }
+      $this->io->note("Total routes: " . count($routes));
 
-        if (is_callable($handler)) {
-            return 'Closure';
-        }
+      return self::SUCCESS;
+   }
 
-        return 'Unknown';
-    }
+   private function formatHandler($handler): string {
+      if (is_string($handler)) {
+         return $handler;
+      }
 
-    private function formatMiddleware(array $middleware): string
-    {
-        if (empty($middleware)) {
-            return '';
-        }
+      if (is_callable($handler)) {
+         return 'Closure';
+      }
 
-        $formatted = array_map(function ($item) {
-            if (is_string($item)) {
-                $parts = explode('\\', $item);
-                return end($parts);
-            }
-            return 'Closure';
-        }, $middleware);
+      return 'Unknown';
+   }
 
-        return implode(', ', $formatted);
-    }
+   private function formatMiddleware(array $middleware): string {
+      if (empty($middleware)) {
+         return '';
+      }
+
+      $formatted = array_map(function ($item) {
+         if (is_string($item)) {
+            $parts = explode('\\', $item);
+            return end($parts);
+         }
+         return 'Closure';
+      }, $middleware);
+
+      return implode(', ', $formatted);
+   }
 }
