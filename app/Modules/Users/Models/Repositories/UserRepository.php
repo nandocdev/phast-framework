@@ -120,7 +120,7 @@ class UserRepository implements UserRepositoryInterface {
          if ($e->getCode() === '23000') {
             throw DuplicateEntityException::withField('User', 'email', $user->getEmail());
          }
-         
+
          throw DatabaseException::fromPDOException($e, 'saving user');
       }
    }
@@ -129,7 +129,7 @@ class UserRepository implements UserRepositoryInterface {
       try {
          // Verify user exists first
          $this->findById($id);
-         
+
          $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
          $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 

@@ -18,34 +18,31 @@ use PDOException;
 /**
  * Thrown when database operations fail
  */
-class DatabaseException extends InfrastructureException
-{
-    public static function fromPDOException(PDOException $e, string $operation = ''): self
-    {
-        $message = $operation ? "Database error during {$operation}: " : 'Database error: ';
-        $message .= $e->getMessage();
-        
-        return new self(
-            message: $message,
-            code: (int) $e->getCode(),
-            previous: $e,
-            context: [
-                'operation' => $operation,
-                'sql_state' => $e->getCode(),
-            ]
-        );
-    }
-    
-    public static function connectionFailed(string $details = ''): self
-    {
-        $message = 'Failed to connect to database';
-        if ($details) {
-            $message .= ": {$details}";
-        }
-        
-        return new self(
-            message: $message,
-            context: ['connection_details' => $details]
-        );
-    }
+class DatabaseException extends InfrastructureException {
+   public static function fromPDOException(PDOException $e, string $operation = ''): self {
+      $message = $operation ? "Database error during {$operation}: " : 'Database error: ';
+      $message .= $e->getMessage();
+
+      return new self(
+         message: $message,
+         code: (int) $e->getCode(),
+         previous: $e,
+         context: [
+            'operation' => $operation,
+            'sql_state' => $e->getCode(),
+         ]
+      );
+   }
+
+   public static function connectionFailed(string $details = ''): self {
+      $message = 'Failed to connect to database';
+      if ($details) {
+         $message .= ": {$details}";
+      }
+
+      return new self(
+         message: $message,
+         context: ['connection_details' => $details]
+      );
+   }
 }

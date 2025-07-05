@@ -18,15 +18,12 @@ use Phast\Core\Exceptions\PhastException;
 /**
  * Base class for all infrastructure-related exceptions
  */
-abstract class InfrastructureException extends PhastException
-{
-    public function getType(): string
-    {
-        return 'infrastructure';
-    }
-    
-    public function getUserMessage(): string
-    {
-        return 'A system error occurred. Please try again later.';
-    }
+abstract class InfrastructureException extends PhastException {
+   public function getType(): string {
+      return 'infrastructure';
+   }
+
+   public function getUserMessage(): string {
+      return 'A system error occurred. Please try again later.';
+   }
 }

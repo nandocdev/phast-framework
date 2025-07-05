@@ -18,10 +18,8 @@ use Phast\Core\Exceptions\PhastException;
 /**
  * Base class for all domain-related exceptions
  */
-abstract class DomainException extends PhastException
-{
-    public function getType(): string
-    {
-        return 'domain';
-    }
+abstract class DomainException extends PhastException {
+   public function getType(): string {
+      return 'domain';
+   }
 }
