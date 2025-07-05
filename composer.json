@@ -21,7 +21,11 @@
     "require-dev": {
         "filp/whoops": "^2.18",
         "phpunit/phpunit": "^12.2",
-        "kint-php/kint": "^6.0"
+        "kint-php/kint": "^6.0",
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "phpstan/phpstan": "^1.12",
+        "phpstan/phpstan-doctrine": "^1.5",
+        "rector/rector": "^1.2"
     },
     "license": "MIT",
     "autoload": {
@@ -34,6 +38,11 @@
             "core/Helpers/system_helpers.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Phast\\Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Fernando Castillo",
@@ -42,9 +51,25 @@
     ],
     "minimum-stability": "stable",
     "scripts": {
-        "serve": "php -S localhost:8000 -t public -a",
+        "serve": "php -S localhost:8000 -t public",
+        "serve:dev": "php -S localhost:8000 -t public -d display_errors=1",
         "test": "phpunit --bootstrap core/bootstrap.php tests",
+        "test:coverage": "phpunit --bootstrap core/bootstrap.php --coverage-html coverage tests",
         "migrate": "phinx migrate -c config/phinx.php",
-        "rollback": "phinx rollback -c config/phinx.php"
+        "migrate:status": "phinx status -c config/phinx.php",
+        "rollback": "phinx rollback -c config/phinx.php",
+        "seed": "phinx seed:run -c config/phinx.php",
+        "cs-fix": "php-cs-fixer fix --config=.php-cs-fixer.php",
+        "phpstan": "phpstan analyse --memory-limit=1G",
+        "quality": [
+            "@cs-fix",
+            "@phpstan",
+            "@test"
+        ],
+        "post-autoload-dump": [
+            "@php -r \"file_exists('storage') || mkdir('storage', 0755, true);\"",
+            "@php -r \"file_exists('storage/cache') || mkdir('storage/cache', 0755, true);\"",
+            "@php -r \"file_exists('storage/logs') || mkdir('storage/logs', 0755, true);\""
+        ]
     }
 }

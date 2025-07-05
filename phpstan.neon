@@ -1,0 +1,18 @@
+parameters:
+    level: 6
+    paths:
+        - app
+        - core
+    excludePaths:
+        - vendor
+        - storage
+        - bootstrap
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+        - '#Call to an undefined method#'
+        - '#Access to an undefined property#'
+    includes:
+        - vendor/phpstan/phpstan-doctrine/extension.neon
+    doctrine:
+        objectManagerLoader: tests/object-manager.php
