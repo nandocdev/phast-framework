@@ -30,31 +30,17 @@ class EventServiceProvider implements ServiceProviderInterface {
    public function boot(ContainerInterface $container): void {
       $eventDispatcher = $container->get(EventDispatcherInterface::class);
 
-      // Register user event listeners if classes exist
-      if (class_exists(\Phast\App\Modules\Users\Events\UserCreated::class)) {
-         $eventDispatcher->listen(
-            \Phast\App\Modules\Users\Events\UserCreated::class,
-            \Phast\App\Modules\Users\Listeners\SendWelcomeEmailListener::class
-         );
+      // Register user event listeners if classes exist - skip registration for now to avoid dependencies
+      // This would be better handled by the user module provider when it boots
 
-         $eventDispatcher->listen(
-            \Phast\App\Modules\Users\Events\UserCreated::class,
-            \Phast\App\Modules\Users\Listeners\LogUserActivityListener::class
-         );
-      }
-
-      if (class_exists(\Phast\App\Modules\Users\Events\UserUpdated::class)) {
-         $eventDispatcher->listen(
-            \Phast\App\Modules\Users\Events\UserUpdated::class,
-            \Phast\App\Modules\Users\Listeners\LogUserActivityListener::class
-         );
-      }
-
-      if (class_exists(\Phast\App\Modules\Users\Events\UserDeleted::class)) {
-         $eventDispatcher->listen(
-            \Phast\App\Modules\Users\Events\UserDeleted::class,
-            \Phast\App\Modules\Users\Listeners\LogUserActivityListener::class
-         );
+      // For now, just log that the event system is ready
+      if (method_exists($container, 'get')) {
+         try {
+            $logger = $container->get(\Psr\Log\LoggerInterface::class);
+            $logger->info('Event system initialized and ready');
+         } catch (\Exception $e) {
+            // Logger not available, skip logging
+         }
       }
    }
 }

@@ -24,6 +24,11 @@ $router->globalMiddleware([
 // Home route
 $router->get('/', 'Phast\App\Controllers\WebController@home')->name('home');
 
+// Test routes for system integration
+$router->get('/test/events', 'Phast\App\Controllers\TestController@testEvents')->name('test.events');
+$router->get('/test/cache', 'Phast\App\Controllers\TestController@testCache')->name('test.cache');
+$router->get('/test/rate-limit', 'Phast\App\Controllers\TestController@testRateLimit')->name('test.rate-limit');
+
 // Web routes for views
 $router->get('/web', 'Phast\App\Controllers\WebController@home')->name('web.home');
 $router->get('/web/users', 'Phast\App\Controllers\WebController@users')->name('web.users');

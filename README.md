@@ -16,6 +16,8 @@
 
 **Phast** no es solo otro framework PHP. Es una filosofía de desarrollo que prioriza la claridad, la mantenibilidad y la productividad. Diseñado para desarrolladores que aprecian el código limpio y una estructura modular, Phast te permite construir aplicaciones robustas y escalables, desde APIs RESTful hasta aplicaciones web completas.
 
+**¿Qué hace especial a Phast?** Incorpora sistemas avanzados como **Event System**, **Cache Layer**, **Rate Limiting**, **DTOs con validación** y una **jerarquía de excepciones robusta**, todo integrado de forma elegante y siguiendo principios de Clean Architecture.
+
 Nuestra misión es proporcionar una base sólida y bien organizada que te libere para centrarte en lo que realmente importa: la lógica de negocio de tu aplicación.
 
 ## Principios Fundamentales
@@ -41,6 +43,11 @@ Phast se construye sobre una base de principios de ingeniería de software proba
 | Motor de Vistas           | Sistema de plantillas potente y extensible con `League/Plates`.             |
 | Validación                | Reglas de validación integradas para datos de entrada.                      |
 | Logging                   | Sistema de logs flexible con `Monolog`.                                     |
+| **Sistema de Eventos**    | **Event dispatcher para desacoplamiento y comunicación entre módulos.**     |
+| **Sistema de Cache**      | **Cache flexible con drivers File y Memory para optimización.**             |
+| **Rate Limiting**         | **Protección contra abuso con algoritmo Token Bucket avanzado.**            |
+| **DTOs y Validación**     | **Data Transfer Objects con validación robusta de entrada.**                |
+| **Excepciones Tipadas**   | **Jerarquía de excepciones específicas para mejor manejo de errores.**      |
 
 ## Primeros Pasos
 
