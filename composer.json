@@ -1,6 +1,17 @@
 {
     "name": "nandocdev/phast",
     "type": "project",
+    "description": "Phast is a lightweight PHP framework designed for rapid application development, featuring a modular architecture, built-in ORM, and a focus on simplicity and performance.",
+    "keywords": [
+        "php",
+        "framework",
+        "orm",
+        "mvc",
+        "modular",
+        "lightweight",
+        "rapid development",
+        "phast"
+    ],
     "require": {
         "vlucas/phpdotenv": "^5.6",
         "monolog/monolog": "^3.9",
@@ -69,7 +80,10 @@
         "post-autoload-dump": [
             "@php -r \"file_exists('storage') || mkdir('storage', 0755, true);\"",
             "@php -r \"file_exists('storage/cache') || mkdir('storage/cache', 0755, true);\"",
-            "@php -r \"file_exists('storage/logs') || mkdir('storage/logs', 0755, true);\""
+            "@php -r \"file_exists('storage/logs') || mkdir('storage/logs', 0755, true);\"",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php -r \"file_exists('database/migrations') || mkdir('database/migrations', 0755, true);\"",
+            "@php -r \"file_exists('database/seeds') || mkdir('database/seeds', 0755, true);\""
         ]
     }
 }
