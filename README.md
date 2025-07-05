@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/your-username/phast/main/docs/assets/logo.png" alt="Phast Framework Logo" width="200">
+  <img src="https://raw.githubusercontent.com/nandocdev/phast-framework/main/public/assets/images/phast_icon1.svg" alt="Phast Framework Logo" width="200">
   <h1>Phast Framework</h1>
   <p><strong>Un framework PHP diseñado para la velocidad, la estructura y la elegancia.</strong></p>
   <p>Construido sobre principios de Arquitectura Limpia, SOLID y DDD para ofrecer una experiencia de desarrollo excepcional.</p>
